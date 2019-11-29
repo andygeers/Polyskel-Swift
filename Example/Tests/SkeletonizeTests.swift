@@ -1,9 +1,17 @@
+//
+//  SkeletonizeTests.swift
+//  Polyskel_Example
+//
+//  Created by Andy Geers on 22/11/2019.
+//  Copyright © 2019 CocoaPods. All rights reserved.
+//
+
 import XCTest
 import Polyskel
 import Euclid
 
 class SkeletonizeTests: XCTestCase {
-    func testTests() {
+    func testSkeletonizeSquare() {
         let p = SkeletonizeTests.square()
         let skeleton = Polyskel.skeletonize(polygon: p!, holes: nil)
         XCTAssertFalse(skeleton.isEmpty)

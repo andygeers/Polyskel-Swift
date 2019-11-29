@@ -10,6 +10,7 @@
 		52AED90B239157BD0017FB3A /* LinesTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52AED90A239157BD0017FB3A /* LinesTests.swift */; };
 		52AED90D239157D90017FB3A /* VectorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52AED90C239157D90017FB3A /* VectorTests.swift */; };
 		52AED90F239157F10017FB3A /* PlanesTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52AED90E239157F10017FB3A /* PlanesTests.swift */; };
+		52AED914239159970017FB3A /* RoofsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52AED912239159930017FB3A /* RoofsTests.swift */; };
 		54ADB58A2DFA64EEC078700E /* Pods_Polyskel_Example.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5A10E5428F508A7BEB9DF4E2 /* Pods_Polyskel_Example.framework */; };
 		607FACD61AFB9204008FA782 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 607FACD51AFB9204008FA782 /* AppDelegate.swift */; };
 		607FACD81AFB9204008FA782 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 607FACD71AFB9204008FA782 /* ViewController.swift */; };
@@ -37,6 +38,7 @@
 		52AED90A239157BD0017FB3A /* LinesTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LinesTests.swift; sourceTree = "<group>"; };
 		52AED90C239157D90017FB3A /* VectorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VectorTests.swift; sourceTree = "<group>"; };
 		52AED90E239157F10017FB3A /* PlanesTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlanesTests.swift; sourceTree = "<group>"; };
+		52AED912239159930017FB3A /* RoofsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoofsTests.swift; sourceTree = "<group>"; };
 		5A10E5428F508A7BEB9DF4E2 /* Pods_Polyskel_Example.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Polyskel_Example.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		607FACD01AFB9204008FA782 /* Polyskel_Example.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Polyskel_Example.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		607FACD41AFB9204008FA782 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -122,6 +124,7 @@
 			isa = PBXGroup;
 			children = (
 				607FACEB1AFB9204008FA782 /* SkeletonizeTests.swift */,
+				52AED912239159930017FB3A /* RoofsTests.swift */,
 				52AED90A239157BD0017FB3A /* LinesTests.swift */,
 				52AED90C239157D90017FB3A /* VectorTests.swift */,
 				52AED90E239157F10017FB3A /* PlanesTests.swift */,
@@ -366,6 +369,7 @@
 			files = (
 				52AED90B239157BD0017FB3A /* LinesTests.swift in Sources */,
 				607FACEC1AFB9204008FA782 /* SkeletonizeTests.swift in Sources */,
+				52AED914239159970017FB3A /* RoofsTests.swift in Sources */,
 				52AED90D239157D90017FB3A /* VectorTests.swift in Sources */,
 				52AED90F239157F10017FB3A /* PlanesTests.swift in Sources */,
 			);
