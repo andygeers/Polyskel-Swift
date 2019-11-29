@@ -18,7 +18,7 @@ Pod::Spec.new do |s|
 #   * Finally, don't worry about the indent, CocoaPods strips it!
 
   s.description      = <<-DESC
-Polyskel is a Python library for finding the Straight Skeleton of a polygon. This is a port to Swift.
+Polyskel is a Python library for finding the Straight Skeleton of a polygon, as described by Felkel and Obdržálek in their 1998 conference paper Straight skeleton implementation. This is a port to Swift.
                        DESC
 
   s.homepage         = 'https://github.com/andygeers/Polyskel-Swift'
