@@ -7,20 +7,14 @@
 
 import Euclid
 
-public extension Polyskel {
-    static func generateRoofPolygons(polygon: Polygon, holes: [Polygon]?) -> [Polygon] {
-        let skeleton = skeletonize(polygon: polygon, holes: holes)
-
+public extension StraightSkeleton {
+    func generateRoofPolygons() -> [Polygon] {
         var polygons : [Polygon] = []
         
         // Iterate over each edge in the original polygon
-        for edge in polygon.edges {
+        for edge in self.polygon.edges {
             // Find all nodes in the skeleton that are related to this edge
-            let nodes = skeleton.filter { $0.edges.contains(edge) }
-            let points = nodes.map { $0.source }
-            
-            // We need to sort the nodes along the axis parallel to the edge
-            let sorted = [edge.point2] + points.sorted(by: { distanceAlong($0, edge) > distanceAlong($1, edge) }) + [edge.point1]
+            let sorted = nodesFor(edge: edge)
             
             let path = Path(sorted.map { PathPoint($0, isCurved: false )}).closed()
             let poly = Polygon(shape: path, material: randomColour())
@@ -30,6 +24,16 @@ public extension Polyskel {
         }
 
         return polygons
+    }
+    
+}
+extension StraightSkeleton {
+    func nodesFor(edge : LineSegment) -> [Vector] {
+        let nodes = self.subtrees.filter { $0.edges.contains(edge) }
+        let points = nodes.map { $0.source }
+        
+        // We need to sort the nodes along the axis parallel to the edge
+        return [edge.point2] + points.sorted(by: { distanceAlong($0, edge) > distanceAlong($1, edge) }) + [edge.point1]
     }
 }
 

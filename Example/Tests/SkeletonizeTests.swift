@@ -14,13 +14,13 @@ class SkeletonizeTests: XCTestCase {
     func testSkeletonizeSquare() {
         let p = SkeletonizeTests.square()
         let skeleton = Polyskel.skeletonize(polygon: p!, holes: nil)
-        XCTAssertFalse(skeleton.isEmpty)
-        XCTAssertEqual(skeleton.count, 2)
-        if (skeleton.count == 2) {
-            for n in (0 ..< skeleton.count) {
-                NSLog("%d: %f,%f,%f (%f): %d", n, skeleton[n].source.x, skeleton[n].source.y, skeleton[n].source.z, skeleton[n].height, skeleton[n].sinks.count);
+        XCTAssertFalse(skeleton.subtrees.isEmpty)
+        XCTAssertEqual(skeleton.subtrees.count, 2)
+        if (skeleton.subtrees.count == 2) {
+            for n in (0 ..< skeleton.subtrees.count) {
+                NSLog("%d: %f,%f,%f (%f): %d", n, skeleton.subtrees[n].source.x, skeleton.subtrees[n].source.y, skeleton.subtrees[n].source.z, skeleton.subtrees[n].height, skeleton.subtrees[n].sinks.count);
                 
-                for sink in skeleton[n].sinks {
+                for sink in skeleton.subtrees[n].sinks {
                     NSLog(" - sink at %f,%f,%f", sink.x, sink.y, sink.z)
                 }
             }

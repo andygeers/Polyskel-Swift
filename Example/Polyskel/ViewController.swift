@@ -56,7 +56,8 @@ class ViewController: UIViewController {
     func buildRoofGeometry() -> SCNNode {
         let squarePoly = square()!
         
-        let roofPolygons = Polyskel.generateRoofPolygons(polygon: squarePoly, holes: nil)
+        let skeleton = Polyskel.skeletonize(polygon: squarePoly, holes: nil)
+        let roofPolygons = skeleton.generateRoofPolygons()
         NSLog("Returned %d roof poly(s)", roofPolygons.count)
         let mesh = Mesh(roofPolygons)
         
@@ -74,8 +75,8 @@ class ViewController: UIViewController {
         var mesh = Mesh([squarePoly])
         
         let skeleton = Polyskel.skeletonize(polygon: squarePoly, holes: nil)
-        NSLog("Found %d node(s)", skeleton.count)
-        for arc in skeleton {
+        NSLog("Found %d node(s)", skeleton.subtrees.count)
+        for arc in skeleton.subtrees {
             NSLog(" - %d sink(s)", arc.sinks.count)
             for sink in arc.sinks {
                 NSLog("From %f,%f,%f to %f,%f,%f", arc.source.x, arc.source.y, arc.source.z, sink.x, sink.y, sink.z)
