@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		52AED90B239157BD0017FB3A /* LinesTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52AED90A239157BD0017FB3A /* LinesTests.swift */; };
+		52AED90D239157D90017FB3A /* VectorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52AED90C239157D90017FB3A /* VectorTests.swift */; };
+		52AED90F239157F10017FB3A /* PlanesTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52AED90E239157F10017FB3A /* PlanesTests.swift */; };
 		54ADB58A2DFA64EEC078700E /* Pods_Polyskel_Example.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5A10E5428F508A7BEB9DF4E2 /* Pods_Polyskel_Example.framework */; };
 		607FACD61AFB9204008FA782 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 607FACD51AFB9204008FA782 /* AppDelegate.swift */; };
 		607FACD81AFB9204008FA782 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 607FACD71AFB9204008FA782 /* ViewController.swift */; };
@@ -31,6 +34,9 @@
 		0A7E044A8C0084621C4577FD /* LICENSE */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = LICENSE; path = ../LICENSE; sourceTree = "<group>"; };
 		13285612150E2958E07647BB /* Pods-Polyskel_Tests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Polyskel_Tests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Polyskel_Tests/Pods-Polyskel_Tests.debug.xcconfig"; sourceTree = "<group>"; };
 		220A5AB0DAB8E7961201A285 /* Pods-Polyskel_Example.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Polyskel_Example.release.xcconfig"; path = "Pods/Target Support Files/Pods-Polyskel_Example/Pods-Polyskel_Example.release.xcconfig"; sourceTree = "<group>"; };
+		52AED90A239157BD0017FB3A /* LinesTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LinesTests.swift; sourceTree = "<group>"; };
+		52AED90C239157D90017FB3A /* VectorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VectorTests.swift; sourceTree = "<group>"; };
+		52AED90E239157F10017FB3A /* PlanesTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlanesTests.swift; sourceTree = "<group>"; };
 		5A10E5428F508A7BEB9DF4E2 /* Pods_Polyskel_Example.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Polyskel_Example.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		607FACD01AFB9204008FA782 /* Polyskel_Example.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Polyskel_Example.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		607FACD41AFB9204008FA782 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -116,6 +122,9 @@
 			isa = PBXGroup;
 			children = (
 				607FACEB1AFB9204008FA782 /* SkeletonizeTests.swift */,
+				52AED90A239157BD0017FB3A /* LinesTests.swift */,
+				52AED90C239157D90017FB3A /* VectorTests.swift */,
+				52AED90E239157F10017FB3A /* PlanesTests.swift */,
 				607FACE91AFB9204008FA782 /* Supporting Files */,
 			);
 			path = Tests;
@@ -355,7 +364,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				52AED90B239157BD0017FB3A /* LinesTests.swift in Sources */,
 				607FACEC1AFB9204008FA782 /* SkeletonizeTests.swift in Sources */,
+				52AED90D239157D90017FB3A /* VectorTests.swift in Sources */,
+				52AED90F239157F10017FB3A /* PlanesTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
