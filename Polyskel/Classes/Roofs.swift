@@ -29,8 +29,9 @@ public extension StraightSkeleton {
 }
 extension StraightSkeleton {
     func nodesFor(edge : LineSegment) -> [Vector] {
+        let polyPlane = self.polygon.plane
         let nodes = self.subtrees.filter { $0.edges.contains(edge) }
-        let points = nodes.map { $0.source }
+        let points = nodes.map { $0.source + polyPlane.normal * $0.height }
         
         // We need to sort the nodes along the axis parallel to the edge
         return [edge.point2] + points.sorted(by: { distanceAlong($0, edge) > distanceAlong($1, edge) }) + [edge.point1]
