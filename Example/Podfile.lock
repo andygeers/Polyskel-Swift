@@ -1,19 +1,12 @@
 PODS:
   - Euclid (0.1.9)
-  - Nimble (7.3.4)
   - Polyskel (0.0.1):
     - Euclid (~> 0.1.9)
-  - Quick (1.2.0)
 
 DEPENDENCIES:
-  - Nimble (~> 7.0)
   - Polyskel (from `../`)
-  - Quick (~> 1.2.0)
 
 SPEC REPOS:
-  https://github.com/CocoaPods/Specs.git:
-    - Nimble
-    - Quick
   trunk:
     - Euclid
 
@@ -23,10 +16,8 @@ EXTERNAL SOURCES:
 
 SPEC CHECKSUMS:
   Euclid: 2eb8740c196b930814117c4bd4515abd4d8ffcc6
-  Nimble: 051e3d8912d40138fa5591c78594f95fb172af37
   Polyskel: f70fcf98732b9b2c7bc712fcccd749c3ce6b2fbd
-  Quick: 58d203b1c5e27fff7229c4c1ae445ad7069a7a08
 
-PODFILE CHECKSUM: 7ccc6f64f38dbba495010f63cf86c3d886433411
+PODFILE CHECKSUM: daf97aeebb2f9fc56a25b60226bc3a52653fbe9c
 
 COCOAPODS: 1.8.4
