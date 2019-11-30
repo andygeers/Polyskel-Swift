@@ -1,6 +1,6 @@
 # Polyskel
 
-[![CI Status](https://img.shields.io/travis/admin@voucherpoint.uk/Polyskel.svg?style=flat)](https://travis-ci.org/admin@voucherpoint.uk/Polyskel)
+[![CI Status](https://img.shields.io/travis/andygeers/Polyskel.svg?style=flat)](https://travis-ci.org/andygeers/Polyskel)
 [![Version](https://img.shields.io/cocoapods/v/Polyskel.svg?style=flat)](https://cocoapods.org/pods/Polyskel)
 [![License](https://img.shields.io/cocoapods/l/Polyskel.svg?style=flat)](https://cocoapods.org/pods/Polyskel)
 [![Platform](https://img.shields.io/cocoapods/p/Polyskel.svg?style=flat)](https://cocoapods.org/pods/Polyskel)

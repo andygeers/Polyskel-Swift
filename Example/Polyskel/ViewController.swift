@@ -2,8 +2,8 @@
 //  ViewController.swift
 //  Polyskel
 //
-//  Created by admin@voucherpoint.uk on 11/22/2019.
-//  Copyright (c) 2019 admin@voucherpoint.uk. All rights reserved.
+//  Created by andygeers on 11/22/2019.
+//  Copyright (c) 2019 andy@geero.net. All rights reserved.
 //
 
 import UIKit
