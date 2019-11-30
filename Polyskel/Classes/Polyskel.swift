@@ -52,7 +52,7 @@ public class Polyskel {
         Returns the straight skeleton as a list of "subtrees", which are in the form of (source, height, sinks),
         where source is the highest points, height is its height, and sinks are the point connected to the source.
      */
-    public static func skeletonize(polygon: Polygon, holes: [Polygon]?) -> StraightSkeleton {
+    public static func skeletonize(polygon: Polygon, holes: [Polygon]?, isGabled: (LineSegment) -> Bool) -> StraightSkeleton {
     
         let slav = SLAV(polygon: polygon, holes: holes)
         var output : [Subtree] = [];
@@ -62,7 +62,7 @@ public class Polyskel {
 
         for lav in slav {
             for vertex in lav {
-                let v = vertex.nextEvent()
+                let v = vertex.nextEvent(isGabled: isGabled)
                 if (v != nil) {
                     prioque.enqueue(v!)
                 }
@@ -78,7 +78,7 @@ public class Polyskel {
                 continue
             }
             
-            let (arc, events) = slav.handleEvent(i)
+            let (arc, events) = slav.handleEvent(i, isGabled: isGabled)
             
             prioque.enqueueAll(events)
 

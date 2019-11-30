@@ -13,7 +13,7 @@ import Euclid
 class SkeletonizeTests: XCTestCase {
     func testSkeletonizeSquare() {
         let p = SkeletonizeTests.square()
-        let skeleton = Polyskel.skeletonize(polygon: p!, holes: nil)
+        let skeleton = Polyskel.skeletonize(polygon: p!, holes: nil, isGabled: { _ in return false })
         XCTAssertFalse(skeleton.subtrees.isEmpty)
         XCTAssertEqual(skeleton.subtrees.count, 2)
         if (skeleton.subtrees.count == 2) {

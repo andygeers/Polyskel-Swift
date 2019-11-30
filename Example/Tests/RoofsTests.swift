@@ -13,7 +13,7 @@ import Euclid
 class RoofsTests: XCTestCase {
     func testGenerateRoofForSquare() {
         let p = RoofsTests.square()
-        let skeleton = Polyskel.skeletonize(polygon: p!, holes: nil)
+        let skeleton = Polyskel.skeletonize(polygon: p!, holes: nil, isGabled: { _ in return false })
         let roofPolys = skeleton.generateRoofPolygons()
         XCTAssertFalse(roofPolys.isEmpty)
         XCTAssertEqual(roofPolys.count, 4)

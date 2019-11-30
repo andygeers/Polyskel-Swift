@@ -82,7 +82,7 @@ class LAVertex {
         return self.lav!.slav.originalEdges
     }
 
-    func nextEvent() -> SkeletonEvent? {
+    func nextEvent(isGabled: (LineSegment) -> Bool) -> SkeletonEvent? {
         var events : [SkeletonEvent] = []
         if (self.isReflex) {
             // a reflex vertex may generate a split event
@@ -146,7 +146,7 @@ class LAVertex {
         if (iPrev != nil) {
             let distance = Line(from: self.edgeLeft).distance(to: iPrev!)
             
-            if (self.point == self.edgeLeft.point2) {
+            if ((self.point == self.edgeLeft.point2) && (isGabled(self.edgeLeft))) {
                 iPrev = self.edgeLeft.midPoint
             }
             
@@ -155,7 +155,7 @@ class LAVertex {
         if (iNext != nil) {
             let distance = Line(from: self.edgeRight).distance(to: iNext!)
             
-            if (self.point == self.edgeRight.point1) {
+            if ((self.point == self.edgeRight.point1) && (isGabled(self.edgeRight))) {
                 iNext = self.edgeRight.midPoint
             }
             

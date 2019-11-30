@@ -64,17 +64,17 @@ class SLAV : Sequence {
             return self.lavs.isEmpty
         }
     }
-    func handleEvent(_ event : SkeletonEvent) -> (Subtree?, [SkeletonEvent]) {
+    func handleEvent(_ event : SkeletonEvent, isGabled: (LineSegment) -> Bool) -> (Subtree?, [SkeletonEvent]) {
         if (event is EdgeEvent) {
-            return self.handleEdgeEvent(event as! EdgeEvent)
+            return self.handleEdgeEvent(event as! EdgeEvent, isGabled: isGabled)
         } else if (event is SplitEvent) {
-            return self.handleSplitEvent(event as! SplitEvent)
+            return self.handleSplitEvent(event as! SplitEvent, isGabled: isGabled)
         } else {
             return (nil, [])
         }
     }
     
-    func handleEdgeEvent(_ event : EdgeEvent) -> (Subtree?, [SkeletonEvent]) {
+    func handleEdgeEvent(_ event : EdgeEvent, isGabled: (LineSegment) -> Bool) -> (Subtree?, [SkeletonEvent]) {
         var sinks : [Vector] = []
         var events : [SkeletonEvent] = []
         var edges : Set<LineSegment> = Set()
@@ -102,7 +102,7 @@ class SLAV : Sequence {
             edges.insert(event.vertexB.edgeLeft)
             edges.insert(event.vertexB.edgeRight)
             
-            let nextEvent = newVertex.nextEvent()
+            let nextEvent = newVertex.nextEvent(isGabled: isGabled)
             if (nextEvent != nil) {
                 events.append(nextEvent!)
             }
@@ -110,7 +110,7 @@ class SLAV : Sequence {
         return (Subtree(source: event.intersectionPoint, height: event.distance, sinks: sinks, edges: Array(edges)), events)
     }
     
-    func handleSplitEvent(_ event : SplitEvent) -> (Subtree?, [SkeletonEvent]) {
+    func handleSplitEvent(_ event : SplitEvent, isGabled: (LineSegment) -> Bool) -> (Subtree?, [SkeletonEvent]) {
         let lav = event.vertex.lav
         NSLog("%.2f Split event at intersection %f,%f,%f from vertex %@, for edge %f,%f,%f->%f,%f,%f in %@", event.distance, event.intersectionPoint.x, event.intersectionPoint.y, event.intersectionPoint.z, event.vertex.description, event.oppositeEdge.point1.x, event.oppositeEdge.point1.y, event.oppositeEdge.point1.z, event.oppositeEdge.point2.x, event.oppositeEdge.point2.y, event.oppositeEdge.point2.z, lav!.description)
 
@@ -189,7 +189,7 @@ class SLAV : Sequence {
         }
         var events : [SkeletonEvent] = []
         for vertex in vertices {
-            let nextEvent = vertex.nextEvent()
+            let nextEvent = vertex.nextEvent(isGabled: isGabled)
             if (nextEvent != nil) {
                 events.append(nextEvent!)
             }
