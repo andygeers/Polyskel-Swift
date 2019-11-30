@@ -72,6 +72,10 @@ public struct LineSegment : Hashable {
             return false;
         }
     }
+    
+    public var midPoint : Vector {
+        return self.point1 + direction * 0.5
+    }
 }
 
 public struct Line : Hashable {
