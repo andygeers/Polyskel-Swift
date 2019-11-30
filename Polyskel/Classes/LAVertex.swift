@@ -140,14 +140,26 @@ class LAVertex {
                 }
             }
         }
-        let iPrev = self.bisector.intersection(with: self.prev!.bisector)
-        let iNext = self.bisector.intersection(with: self.next!.bisector)
+        var iPrev = self.bisector.intersection(with: self.prev!.bisector)
+        var iNext = self.bisector.intersection(with: self.next!.bisector)
 
         if (iPrev != nil) {
-            events.append(EdgeEvent(distance: Line(from: self.edgeLeft).distance(to: iPrev!), intersectionPoint: iPrev!, vertexA: self.prev!, vertexB: self))
+            let distance = Line(from: self.edgeLeft).distance(to: iPrev!)
+            
+            if (self.point == self.edgeLeft.point2) {
+                iPrev = self.edgeLeft.midPoint
+            }
+            
+            events.append(EdgeEvent(distance: distance, intersectionPoint: iPrev!, vertexA: self.prev!, vertexB: self))
         }
         if (iNext != nil) {
-            events.append(EdgeEvent(distance: Line(from: self.edgeRight).distance(to: iNext!), intersectionPoint:iNext!, vertexA: self, vertexB: self.next!))
+            let distance = Line(from: self.edgeRight).distance(to: iNext!)
+            
+            if (self.point == self.edgeRight.point1) {
+                iNext = self.edgeRight.midPoint
+            }
+            
+            events.append(EdgeEvent(distance: distance, intersectionPoint:iNext!, vertexA: self, vertexB: self.next!))
         }
 
         if (events.isEmpty) {

@@ -58,4 +58,10 @@ class LinesTests: XCTestCase {
             XCTAssertEqual(intersection, Vector(3, 0, 0).quantized())
         }
     }
+    
+    func testLineSegmentMidpoint() {
+        let l = LineSegment(Vector(0, 0, 0), Vector(10, 0, 0))
+        let midpoint = l.midPoint
+        XCTAssertEqual(Vector(5, 0, 0), midpoint)
+    }
 }
