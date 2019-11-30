@@ -57,7 +57,7 @@ class ViewController: UIViewController {
         let squarePoly = square()!
         
         let skeleton = Polyskel.skeletonize(polygon: squarePoly, holes: nil)
-        let roofPolygons = skeleton.generateRoofPolygons()
+        let roofPolygons = skeleton.generateRoofPolygons(angle: Double.pi / 4)
         NSLog("Returned %d roof poly(s)", roofPolygons.count)
         let mesh = Mesh(roofPolygons)
         
