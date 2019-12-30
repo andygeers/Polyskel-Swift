@@ -32,11 +32,11 @@ import Euclid
 
 struct OriginalEdge {
     var edge : LineSegment;
-    var bisectorLeft : Line;
-    var bisectorRight : Line;
+    var bisectorLeft : Ray;
+    var bisectorRight : Ray;
     
     public var description : String {
-        return String(format: "Edge from %f,%f,%f -> %f,%f,%f", edge.point1.x, edge.point1.y, edge.point1.z, edge.point2.x, edge.point2.y, edge.point2.z)
+        return String(format: "Edge from %.2f,%.2f,%.2f -> %.2f,%.2f,%.2f", edge.point1.x, edge.point1.y, edge.point1.z, edge.point2.x, edge.point2.y, edge.point2.z)
     }
 }
 
@@ -50,13 +50,13 @@ class LAVertex {
     var lav : LAV?;
     var isValid : Bool = true; // this should be handled better. Maybe membership in lav implies validity?
     var isReflex : Bool = false
-    var bisector : Line
+    var bisector : Ray
     
     public var description: String {
-        return String(format: "Vertex (%.2f};{%.2f})", self.point.x, self.point.y)
+        return String(format: "Vertex (%@) (%.2f};{%.2f}), bisector %@, edges %@ %@", self.isReflex ? "reflex" : "convex", self.point.x, self.point.z, self.bisector.description, self.edgeLeft.description, self.edgeRight.description)
     }
     
-    init(point: Vector, edgeLeft : LineSegment, edgeRight : LineSegment, directionVectors: [Vector]?) {
+    init(point: Vector, edgeLeft : LineSegment, edgeRight : LineSegment, plane: Plane, directionVectors: [Vector]?) {
         self.point = point
         self.edgeLeft = edgeLeft
         self.edgeRight = edgeRight
@@ -71,8 +71,9 @@ class LAVertex {
             directionVectorsToUse = creatorVectors
         }
 
-        self.isReflex = !SLAV.VectorGTEZero(directionVectorsToUse![0].cross(directionVectorsToUse![1]))
-        self.bisector = Line(point: self.point, direction: (creatorVectors[0] + creatorVectors[1]) * (self.isReflex ? -1 : 1))
+        let reflexCross = directionVectorsToUse![0].cross(directionVectorsToUse![1])        
+        self.isReflex = reflexCross.dot(plane.normal) > 0
+        self.bisector = Ray(self.point, (creatorVectors[0] + creatorVectors[1]) * (self.isReflex ? -1 : 1))
         NSLog("Created vertex %@", self.description)
         //_debug.line((self.bisector.p.x, self.bisector.p.y, self.bisector.p.x+self.bisector.v.x*100, self.bisector.p.y+self.bisector.v.y*100), fill="blue")
     }
@@ -104,7 +105,7 @@ class LAVertex {
                 let rightdot = abs(self.edgeRight.direction.dot(edge.edge.direction))
                 let selfedge = leftdot < rightdot ? self.edgeLeft : self.edgeRight                
 
-                let i = Line(from: selfedge).intersection(with: Line(from: edge.edge))
+                let i = Line(from: selfedge).linearGeomIntersection(with: Line(from: edge.edge))
                 if ((i != nil) && (!(i! == self.point))) {
                     // locate candidate b
                     let linvec = (self.point - i!).normalized()
@@ -117,8 +118,8 @@ class LAVertex {
                     if (bisecvec.length == 0) {
                         continue
                     }
-                    let bisector = Line(point: i!, direction: bisecvec)
-                    let b = bisector.intersection(with: self.bisector)
+                    let bisector = LineSegment(i!, bisecvec)
+                    let b = bisector.linearGeomIntersection(with: self.bisector)
 
                     if (b == nil) {
                         continue
@@ -126,9 +127,9 @@ class LAVertex {
 
                     // check eligibility of b
                     // a valid b should lie within the area limited by the edge and the bisectors of its two vertices:
-                    let xleft = !SLAV.VectorLTEZero(edge.bisectorLeft.direction.cross((b! - edge.bisectorLeft.point).normalized()))
-                    let xright = !SLAV.VectorGTEZero(edge.bisectorRight.direction.cross((b! - edge.bisectorRight.point).normalized()))
-                    let xedge = !SLAV.VectorGTEZero(edge.edge.direction.cross((b! - edge.edge.point1).normalized()))
+                    let xleft = !self.lav!.slav.VectorLTEZero(edge.bisectorLeft.direction.cross((b! - edge.bisectorLeft.point).normalized()))
+                    let xright = !self.lav!.slav.VectorGTEZero(edge.bisectorRight.direction.cross((b! - edge.bisectorRight.point).normalized()))
+                    let xedge = !self.lav!.slav.VectorGTEZero(edge.edge.direction.cross((b! - edge.edge.point1).normalized()))
 
                     if (!(xleft && xright && xedge)) {
                         NSLog("\t\tDiscarded candidate %f,%f,%f (%@-%@-%@)", b!.x, b!.y, b!.z, xleft.description, xright.description, xedge.description)
@@ -140,8 +141,8 @@ class LAVertex {
                 }
             }
         }
-        var iPrev = self.bisector.intersection(with: self.prev!.bisector)
-        var iNext = self.bisector.intersection(with: self.next!.bisector)
+        var iPrev = self.bisector.linearGeomIntersection(with: self.prev!.bisector)
+        var iNext = self.bisector.linearGeomIntersection(with: self.next!.bisector)
 
         if (iPrev != nil) {
             let distance = Line(from: self.edgeLeft).distance(to: iPrev!)

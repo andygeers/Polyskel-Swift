@@ -96,9 +96,11 @@ class LAV : Sequence {
 
     static func fromPolygon(polygon : Polygon, slav : SLAV) -> LAV {
         let lav = LAV(slav: slav)
-        for (prev, point, next) in window(normalizeContour(polygon)) {
+        let points = [polygon.vertices.last!.position] + polygon.vertices.map { $0.position }
+        
+        for (prev, point, next) in window(points) {
             lav.length += 1
-            let vertex = LAVertex(point: point, edgeLeft: LineSegment(prev, point), edgeRight: LineSegment(point, next), directionVectors: nil)
+            let vertex = LAVertex(point: point, edgeLeft: LineSegment(prev, point), edgeRight: LineSegment(point, next), plane: slav.plane, directionVectors: nil)
             vertex.lav = lav
             if (lav.head == nil) {
                 lav.head = vertex
@@ -135,7 +137,7 @@ class LAV : Sequence {
     }
 
     func unify(vertexA : LAVertex, vertexB : LAVertex, point : Vector) -> LAVertex {
-        let replacement = LAVertex(point: point, edgeLeft: vertexA.edgeLeft, edgeRight: vertexB.edgeRight, directionVectors: [vertexB.bisector.direction.normalized(), vertexA.bisector.direction.normalized()])
+        let replacement = LAVertex(point: point, edgeLeft: vertexA.edgeLeft, edgeRight: vertexB.edgeRight, plane: self.slav.plane, directionVectors: [vertexB.bisector.direction.normalized(), vertexA.bisector.direction.normalized()])
         replacement.lav = self
 
         if ((self.head! === vertexA) || (self.head! === vertexB)) {

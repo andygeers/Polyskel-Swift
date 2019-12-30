@@ -31,7 +31,29 @@
 
 import Euclid
 
-public struct LineSegment : Hashable {
+enum AxisSwap {
+    case none
+    case xz
+    case yz
+    case notPossible
+}
+
+protocol LinearGeometry {
+    func containsColinearPoint(_ point : Vector) -> Bool
+    var direction : Vector { get }
+    var line : Line { get }
+    
+    func swappedToXZ() -> LinearGeometry
+    func swappedToYZ() -> LinearGeometry
+}
+
+extension LinearGeometry {
+    func linearGeomIntersection(with: LinearGeometry) -> Vector? {
+        return intersectionBetween(self, with: with)
+    }
+}
+
+public struct LineSegment : Hashable, LinearGeometry {
     public init(_ point1: Vector, _ point2: Vector) {
         self.point1 = point1
         self.point2 = point2
@@ -39,6 +61,10 @@ public struct LineSegment : Hashable {
     
     public var point1: Vector {
         didSet { point1 = point1.quantized() }
+    }
+    
+    public var point: Vector {
+        return point1
     }
     
     public var point2: Vector {
@@ -50,27 +76,12 @@ public struct LineSegment : Hashable {
         return diff.normalized()
     }
     
+    public var line : Line {
+        return Line(point: point1, direction: direction)
+    }
+    
     public func intersects(with: LineSegment) -> Bool {
-        if ((self.direction.z == 0) && (with.direction.z == 0) && (self.point1.z == with.point1.z)) {
-            return lineSegmentsIntersect(self.point1, self.point2, with.point1, with.point2)
-        } else if ((self.direction.y == 0) && (with.direction.y == 0) && (self.point1.y == with.point1.y)) {
-            // Switch dimensions and then solve
-            let p0 = Vector(self.point1.x, self.point1.z, 0)
-            let p1 = Vector(self.point2.x, self.point2.z, 0)
-            let p2 = Vector(with.point1.x, with.point1.z, 0)
-            let p3 = Vector(with.point2.x, with.point2.z, 0)
-            return lineSegmentsIntersect(p0, p1, p2, p3)
-        } else if ((self.direction.x == 0) && (with.direction.x == 0) && (self.point1.x == with.point1.x)) {
-            // Switch dimensions and then solve
-            let p0 = Vector(self.point1.y, self.point1.z, 0)
-            let p1 = Vector(self.point2.y, self.point2.z, 0)
-            let p2 = Vector(with.point1.y, with.point1.z, 0)
-            let p3 = Vector(with.point2.y, with.point2.z, 0)
-            return lineSegmentsIntersect(p0, p1, p2, p3)
-        } else {
-            // TOOO: Generalize to 3D
-            return false;
-        }
+        return intersection(with: with) != nil
     }
     
     public var midPoint : Vector {
@@ -78,7 +89,140 @@ public struct LineSegment : Hashable {
     }
 }
 
-public struct Line : Hashable {
+extension LineSegment {
+    public func intersection(with: LineSegment) -> Vector? {
+        return self.linearGeomIntersection(with: with)
+    }
+    
+    public func intersection(with: Ray) -> Vector? {
+        return self.linearGeomIntersection(with: with)
+    }
+    
+    public func intersection(with: Line) -> Vector? {
+        return self.linearGeomIntersection(with: with)
+    }
+    
+    func swappedToXZ() -> LinearGeometry {
+        let p0 = Vector(self.point1.x, self.point1.z, self.point1.y)
+        let p1 = Vector(self.point2.x, self.point2.z, self.point1.y)
+        return LineSegment(p0, p1)
+    }
+    
+    func swappedToYZ() -> LinearGeometry {
+        let p0 = Vector(self.point1.y, self.point1.z, self.point1.x)
+        let p1 = Vector(self.point2.y, self.point2.z, self.point1.x)
+        return LineSegment(p0, p1)
+    }
+    
+    func containsColinearPoint(_ point : Vector) -> Bool {
+        let ua = pointParameter(point, self.point1, self.point2)
+        return ua >= 0.0 && ua <= 1.0
+    }
+    
+    internal static func getAxisSwapForIntersection(_ first: LinearGeometry, with: LinearGeometry) -> AxisSwap {
+        
+        if ((first.direction.z == 0) && (with.direction.z == 0) && (first.line.point.z == with.line.point.z)) {
+            return .none
+        } else if ((first.direction.y == 0) && (with.direction.y == 0) && (first.line.point.y == with.line.point.y)) {
+            // Switch dimensions and then solve
+            return .xz
+        } else if ((first.direction.x == 0) && (with.direction.x == 0) && (first.line.point.x == with.line.point.x)) {
+            // Switch dimensions and then solve
+            return .yz
+        } else {
+            // TOOO: Generalize to 3D
+            return .notPossible
+        }
+    }
+}
+
+public struct Ray : Hashable, LinearGeometry {
+    public init(_ point: Vector, _ direction: Vector) {
+        self.point = point
+        self.direction = direction
+    }
+    
+    public var point: Vector {
+        didSet { point = point.quantized() }
+    }
+    
+    public var direction: Vector {
+        didSet { direction = direction.normalized() }
+    }
+    
+    public var line : Line {
+        return Line(point: point, direction: direction)
+    }
+}
+
+extension Ray {
+    public func intersection(with: LineSegment) -> Vector? {
+        return self.linearGeomIntersection(with: with)
+    }
+    
+    public func intersection(with: Ray) -> Vector? {
+        return self.linearGeomIntersection(with: with)
+    }
+    
+    public func intersection(with: Line) -> Vector? {
+        return self.linearGeomIntersection(with: with)
+    }
+    
+    func swappedToXZ() -> LinearGeometry {
+        let p0 = Vector(self.point.x, self.point.z, self.point.y)
+        let p1 = Vector(self.direction.x, self.direction.z, self.direction.y)
+        return Ray(p0, p1)
+    }
+    
+    func swappedToYZ() -> LinearGeometry {
+        let p0 = Vector(self.point.y, self.point.z, self.point.x)
+        let p1 = Vector(self.direction.y, self.direction.z, self.direction.x)
+        return Ray(p0, p1)
+    }
+    
+    public func containsColinearPoint(_ point : Vector) -> Bool {
+        let ua = pointParameter(point, self.point, self.point + self.direction)
+        return ua >= 0.0
+    }
+}
+
+private func intersectionBetween(_ geometry1 : LinearGeometry, with: LinearGeometry) -> Vector? {
+    
+    let axisSwap = LineSegment.getAxisSwapForIntersection(geometry1, with: with)
+    switch (axisSwap) {
+        case .notPossible:
+            return nil
+    
+        case .none:
+            return linearGeometryIntersection(geometry1, with)
+            
+        case .xz:
+            let segment1 = geometry1.swappedToXZ()
+            let segment2 = with.swappedToXZ()
+            let intersection = linearGeometryIntersection(segment1, segment2)
+            if (intersection != nil) {
+                // Switch back
+                return Vector(intersection!.x, intersection!.z, intersection!.y)
+            } else {
+               return nil
+           }
+        
+        case .yz:
+            let segment1 = geometry1.swappedToYZ()
+            let segment2 = with.swappedToYZ()
+            let intersection = linearGeometryIntersection(segment1, segment2)
+            if (intersection != nil) {
+                // Switch back
+                // Switch back
+                return Vector(intersection!.z, intersection!.x, intersection!.y)
+            } else {
+                return nil
+            }
+        
+    }
+}
+
+public struct Line : Hashable, LinearGeometry {
     public init(point: Vector, direction: Vector) {
         self.point = point
         self.direction = direction
@@ -97,44 +241,49 @@ public struct Line : Hashable {
         didSet { direction = direction.normalized() }
     }
     
+    public var description : String {
+        return String(format: "{<%@> u<%@>}", point.description, direction.description)
+    }
+    
+    public var line : Line {
+        return self
+    }
+    
     public func distance(to: Vector) -> Double {
         // See "Vector formulation" at https://en.wikipedia.org/wiki/Distance_from_a_point_to_a_line
         let aMinusP = self.point - to
         let v = aMinusP - (self.direction * aMinusP.dot(self.direction))
         return v.length
     }
+}
+
+extension Line {
+    public func intersection(with: LineSegment) -> Vector? {
+        return self.linearGeomIntersection(with: with)
+    }
+    
+    public func intersection(with: Ray) -> Vector? {
+        return self.linearGeomIntersection(with: with)
+    }
     
     public func intersection(with: Line) -> Vector? {
-        if ((self.direction.z == 0) && (with.direction.z == 0) && (self.point.z == with.point.z)) {
-            return lineIntersection(self.point, self.point + self.direction, with.point, with.point + with.direction)
-        } else if ((self.direction.y == 0) && (with.direction.y == 0) && (self.point.y == with.point.y)) {
-            // Switch dimensions and then solve
-            let p0 = Vector(self.point.x, self.point.z, self.point.y)
-            let p1 = p0 + Vector(self.direction.x, self.direction.z, 0)
-            let p2 = Vector(with.point.x, with.point.z, with.point.y)
-            let p3 = p2 + Vector(with.direction.x, with.direction.z, 0)
-            let solution = lineIntersection(p0, p1, p2, p3)
-            if (solution != nil) {
-                return Vector(solution!.x, solution!.z, solution!.y)
-            } else {
-                return nil;
-            }
-        } else if ((self.direction.x == 0) && (with.direction.x == 0) && (self.point.x == with.point.x)) {
-            // Switch dimensions and then solve
-            let p0 = Vector(self.point.y, self.point.z, self.point.x)
-            let p1 = p0 + Vector(self.direction.y, self.direction.z, 0)
-            let p2 = Vector(with.point.y, with.point.z, with.point.x)
-            let p3 = p2 + Vector(with.direction.y, with.direction.z, 0)
-            let solution = lineIntersection(p0, p1, p2, p3)
-            if (solution != nil) {
-                return Vector(solution!.z, solution!.x, solution!.y)
-            } else {
-                return nil;
-            }
-        } else {
-            // TOOO: Generalize to 3D
-            return nil;
-        }
+        return self.linearGeomIntersection(with: with)
+    }
+    
+    func swappedToXZ() -> LinearGeometry {
+        let p0 = Vector(self.point.x, self.point.z, self.point.y)
+        let p1 = Vector(self.direction.x, self.direction.z, self.direction.y)
+        return Line(point: p0, direction: p1)
+    }
+    
+    func swappedToYZ() -> LinearGeometry {
+        let p0 = Vector(self.point.y, self.point.z, self.point.x)
+        let p1 = Vector(self.direction.y, self.direction.z, self.direction.x)
+        return Line(point: p0, direction: p1)
+    }
+    
+    func containsColinearPoint(_ point : Vector) -> Bool {
+        return true
     }
 }
 
@@ -143,8 +292,13 @@ public struct Line : Hashable {
 // Get the intersection point between two lines
 // TODO: extend this to work in 3D
 // TODO: improve this using https://en.wikipedia.org/wiki/Line–line_intersection
-private func lineIntersection(_ p0: Vector, _ p1: Vector,
-                              _ p2: Vector, _ p3: Vector) -> Vector? {
+private func lineIntersection(_ line1: Line, _ line2: Line) -> Vector? {
+    
+    let p0 = line1.point
+    let p1 = p0 + line1.direction
+    let p2 = line2.point
+    let p3 = p2 + line2.direction
+    
     let x1 = p0.x, y1 = p0.y
     let x2 = p1.x, y2 = p1.y
     let x3 = p2.x, y3 = p2.y
@@ -172,20 +326,20 @@ private func lineIntersection(_ p0: Vector, _ p1: Vector,
     return Vector(ix, iy, p0.z).quantized()
 }
 
-// TODO: extend this to work in 3D
-private func lineSegmentsIntersect(_ p0: Vector, _ p1: Vector,
-                                   _ p2: Vector, _ p3: Vector) -> Bool {
-    guard let pi = lineIntersection(p0, p1, p2, p3) else {
-        return false // lines are parallel
+private func pointParameter(_ point : Vector, _ point1 : Vector, _ point2: Vector) -> Double {
+    return (point - point1).dot(point2 - point1) / (point2 - point1).length
+}
+
+private func linearGeometryIntersection(_ l1: LinearGeometry, _ l2: LinearGeometry) -> Vector? {
+    guard let pi = lineIntersection(l1.line, l2.line) else {
+        return nil // lines are parallel
     }
-    // TODO: is there a cheaper way to do this?
-    if pi.x < min(p0.x, p1.x) || pi.x > max(p0.x, p1.x) ||
-        pi.x < min(p2.x, p3.x) || pi.x > max(p2.x, p3.x) ||
-        pi.y < min(p0.y, p1.y) || pi.y > max(p0.y, p1.y) ||
-        pi.y < min(p2.y, p3.y) || pi.y > max(p2.y, p3.y) {
-        return false
+    
+    if (l1.containsColinearPoint(pi) && l2.containsColinearPoint(pi)) {
+        return pi
+    } else {
+        return nil
     }
-    return true
 }
 
 public extension Polygon {

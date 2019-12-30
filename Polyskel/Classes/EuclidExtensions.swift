@@ -119,3 +119,21 @@ internal extension Plane {
     }
     
 }
+
+extension Vector {
+    var description : String {
+        return String(format: "%.2f,%.2f,%.2f", self.x, self.y, self.z)
+    }
+}
+
+extension LineSegment {
+    var description : String {
+        return String(format: "LineSegment(<%@> to <%@>)", self.point1.description, self.point2.description)                
+    }
+}
+
+extension Ray {
+    var description : String {
+        return String(format: "Ray(%@ + u<%@>)", point.description, direction.description)
+    }
+}

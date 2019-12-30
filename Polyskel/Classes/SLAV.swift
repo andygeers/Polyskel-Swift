@@ -34,12 +34,15 @@ import Foundation
 class SLAV : Sequence {
     internal var lavs : [LAV] = []
     internal var originalEdges : [OriginalEdge]
+    var plane : Plane
     
     init(polygon: Polygon, holes: [Polygon]?) {
         var contours = [polygon]
         if (holes != nil) {
             contours.append(contentsOf: holes!)
         }
+        
+        self.plane = polygon.plane
         
         self.originalEdges = []
         
@@ -131,8 +134,8 @@ class SLAV : Sequence {
             }
 
             if (x != nil) {
-                let xleft =  SLAV.VectorGTEZero(y!.bisector.direction.cross((event.intersectionPoint - y!.point).normalized()))
-                let xright = SLAV.VectorLTEZero(x!.bisector.direction.cross((event.intersectionPoint - x!.point).normalized()))
+                let xleft =  self.VectorGTEZero(y!.bisector.direction.cross((event.intersectionPoint - y!.point).normalized()))
+                let xright = self.VectorLTEZero(x!.bisector.direction.cross((event.intersectionPoint - x!.point).normalized()))
                 NSLog("Vertex %@ holds edge as %@ edge (%d, %d)", v.description, (x === v ? "left" : "right"), xleft, xright)
 
                 if (xleft && xright) {
@@ -148,8 +151,8 @@ class SLAV : Sequence {
             return (nil,[])
         }
 
-        let v1 = LAVertex(point: event.intersectionPoint, edgeLeft: event.vertex.edgeLeft, edgeRight: event.oppositeEdge, directionVectors: nil)
-        let v2 = LAVertex(point: event.intersectionPoint, edgeLeft: event.oppositeEdge, edgeRight: event.vertex.edgeRight, directionVectors: nil)
+        let v1 = LAVertex(point: event.intersectionPoint, edgeLeft: event.vertex.edgeLeft, edgeRight: event.oppositeEdge, plane: self.plane, directionVectors: nil)
+        let v2 = LAVertex(point: event.intersectionPoint, edgeLeft: event.oppositeEdge, edgeRight: event.vertex.edgeRight, plane: self.plane, directionVectors: nil)
 
         v1.prev = event.vertex.prev
         v1.next = x
@@ -198,13 +201,11 @@ class SLAV : Sequence {
         return (Subtree(source: event.intersectionPoint, height: event.distance, sinks: sinks, edges: Array(edges)), events)
     }
     
-    public static func VectorGTEZero(_ vector : Vector) -> Bool {
-        // Are there any elements < 0?
-        return vector.x >= 0 && vector.y >= 0 && vector.z >= 0
+    public func VectorGTEZero(_ vector : Vector) -> Bool {
+        return vector.dot(self.plane.normal) < 0
     }
     
-    public static func VectorLTEZero(_ vector : Vector) -> Bool {
-        // Are there any elements > 0?
-        return vector.x <= 0 && vector.y <= 0 && vector.z <= 0
+    public func VectorLTEZero(_ vector : Vector) -> Bool {
+        return vector.dot(self.plane.normal) > 0
     }
 }
