@@ -109,23 +109,19 @@ class ViewController: UIViewController {
     }
 
     func square() -> Polygon? {
-        let p1 = Vector(0, 0, 0)
-        let p2 = Vector(0, 0, 2)
-        let p3 = Vector(2, 0, 2)
-        let p4 = Vector(2, 0, 0.8)
-        let p5 = Vector(1, 0, 0.8)
-        let p6 = Vector(1, 0, 0)
-        let p7 = Vector(0, 0, 0)
+        let points = [
+            Vector(0,   0, 0),
+            Vector(0,   0, 2),
+            Vector(2,   0, 2),
+            Vector(2,   0, 0),
+            Vector(1.2, 0, 0),
+            Vector(1.2, 0, 1),
+            Vector(0.8, 0, 1),
+            Vector(0.8, 0, 0),
+            Vector(0,   0, 0)
+        ]        
         
-        let outline = Path([
-            PathPoint(p1, isCurved: false),
-            PathPoint(p2, isCurved: false),
-            PathPoint(p3, isCurved: false),
-            PathPoint(p4, isCurved: false),
-            PathPoint(p5, isCurved: false),
-            PathPoint(p6, isCurved: false),
-            PathPoint(p7, isCurved: false)
-        ]).closed()
+        let outline = Path(points.map { PathPoint($0, isCurved: false) }).closed()
         
         return Polygon(shape: outline, material: UIColor.red)
     }
