@@ -119,6 +119,11 @@ extension LineSegment {
         return ua >= 0.0 && ua <= 1.0
     }
     
+    public func contains(_ point : Vector) -> Bool {
+        // First see if this point lies on this line
+        return line.contains(point) && containsColinearPoint(point)
+    }
+    
     internal static func getAxisSwapForIntersection(_ first: LinearGeometry, with: LinearGeometry) -> AxisSwap {
         
         if ((first.direction.z == 0) && (with.direction.z == 0) && (first.line.point.z == with.line.point.z)) {
@@ -254,6 +259,11 @@ public struct Line : Hashable, LinearGeometry {
         let aMinusP = self.point - to
         let v = aMinusP - (self.direction * aMinusP.dot(self.direction))
         return v.length
+    }
+    
+    public func contains(_ point : Vector) -> Bool {
+        // First see if this point lies on this line
+        return distance(to: point) == 0.0
     }
 }
 
