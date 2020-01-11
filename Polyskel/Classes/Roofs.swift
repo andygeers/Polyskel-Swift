@@ -39,7 +39,7 @@ extension StraightSkeleton {
         let points = nodes.map { $0.source + polyPlane.normal * ($0.height * scaleFactor) }
         
         // We need to sort the nodes along the axis parallel to the edge
-        return [edge.point2] + points.sorted(by: { distanceAlong($0, edge) > distanceAlong($1, edge) }) + [edge.point1]
+        return [edge.end] + points.sorted(by: { distanceAlong($0, edge) > distanceAlong($1, edge) }) + [edge.start]
     }
     
     func scaleFactorFor(angle: Double) -> Double {
@@ -56,7 +56,7 @@ extension StraightSkeleton {
 }
 
 internal func distanceAlong(_ point : Vector, _ edge : LineSegment) -> Double {
-   return (point - edge.point1).dot(edge.direction)
+   return (point - edge.start).dot(edge.direction)
 }
 
 internal func randomColour() -> UIColor {

@@ -48,17 +48,16 @@ class LAV : Sequence {
         return (0 ..< contour.count).map { (contour[modulo($0 - 1, contour.count)], contour[$0], contour[($0 + 1) % contour.count]) }
     }
     
-    internal static func normalizeContour(_ polygon : Polygon) -> [Vector] {
+    internal static func normalizeContour(_ polygon : Polygon) -> [(Vector, Vector, Vector)] {
+        
         let contour = polygon.vertices.map { $0.position }
+        
         let w = window(contour)
         let filtered = w.filter({
             let (prev, point, next) = $0
             return !(point==next || ((point-prev).normalized() == (next-point).normalized()))
         })
-        return filtered.map {
-            let (_, point, _) = $0
-            return point
-        }
+        return filtered
     }
     
     struct LAVIterator : IteratorProtocol {
@@ -96,11 +95,10 @@ class LAV : Sequence {
 
     static func fromPolygon(polygon : Polygon, slav : SLAV) -> LAV {
         let lav = LAV(slav: slav)
-        let points = [polygon.vertices.last!.position] + polygon.vertices.map { $0.position }
         
-        for (prev, point, next) in window(points) {
+        for (prev, point, next) in normalizeContour(polygon) {
             lav.length += 1
-            let vertex = LAVertex(point: point, edgeLeft: LineSegment(prev, point), edgeRight: LineSegment(point, next), plane: slav.plane, directionVectors: nil)
+            let vertex = LAVertex(point: point, edgeLeft: LineSegment(prev, point)!, edgeRight: LineSegment(point, next)!, plane: slav.plane, directionVectors: nil)
             vertex.lav = lav
             if (lav.head == nil) {
                 lav.head = vertex

@@ -1,7 +1,7 @@
 PODS:
-  - Euclid (0.1.9)
-  - Polyskel (0.0.1):
-    - Euclid (~> 0.1.9)
+  - Euclid (0.2.0)
+  - Polyskel (0.0.3):
+    - Euclid (~> 0.2.0)
 
 DEPENDENCIES:
   - Polyskel (from `../`)
@@ -15,8 +15,8 @@ EXTERNAL SOURCES:
     :path: "../"
 
 SPEC CHECKSUMS:
-  Euclid: 2eb8740c196b930814117c4bd4515abd4d8ffcc6
-  Polyskel: f70fcf98732b9b2c7bc712fcccd749c3ce6b2fbd
+  Euclid: e90e48eb8093b6ce8eff66749d2b247e0198a1bc
+  Polyskel: bc71057ef3049d6e2a9c61e263ff6c9d44af0f55
 
 PODFILE CHECKSUM: daf97aeebb2f9fc56a25b60226bc3a52653fbe9c
 

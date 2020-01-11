@@ -128,7 +128,7 @@ extension Vector {
 
 extension LineSegment {
     var description : String {
-        return String(format: "LineSegment(<%@> to <%@>)", self.point1.description, self.point2.description)                
+        return String(format: "LineSegment(<%@> to <%@>)", self.start.description, self.end.description)                
     }
 }
 

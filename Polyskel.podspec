@@ -39,5 +39,5 @@ Polyskel is a Python library for finding the Straight Skeleton of a polygon, as 
 
   # s.public_header_files = 'Pod/Classes/**/*.h'
   # s.frameworks = 'UIKit', 'MapKit'
-  s.dependency 'Euclid', "~> 0.1.9"
+  s.dependency 'Euclid', "~> 0.2.0"
 end

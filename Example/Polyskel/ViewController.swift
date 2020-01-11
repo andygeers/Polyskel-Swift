@@ -80,7 +80,7 @@ class ViewController: UIViewController {
             NSLog(" - %d sink(s)", arc.sinks.count)
             for sink in arc.sinks {
                 NSLog("From %f,%f,%f to %f,%f,%f", arc.source.x, arc.source.y, arc.source.z, sink.x, sink.y, sink.z)
-                let lineMesh = meshFromLineSegment(LineSegment(arc.source, sink))
+                let lineMesh = meshFromLineSegment(LineSegment(arc.source, sink)!)
                 if (lineMesh != nil) {
                     mesh = mesh.merge(lineMesh!)
                 }
@@ -98,7 +98,7 @@ class ViewController: UIViewController {
     
     func meshFromLineSegment(_ lineSegment: LineSegment) -> Mesh? {
         let offset = Vector(0.01, 0.01, 0)
-        let vectors = [lineSegment.point1, lineSegment.point2, lineSegment.point2 + offset, lineSegment.point1 + offset]
+        let vectors = [lineSegment.start, lineSegment.end, lineSegment.end + offset, lineSegment.start + offset]
         let outline = Path(vectors.map { PathPoint($0, isCurved: false) })
         let polygon = Polygon(shape: outline.closed(), material: UIColor.blue)
         if (polygon != nil) {

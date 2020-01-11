@@ -69,7 +69,7 @@ class SplitEvent : SkeletonEvent {
     }
     
     override public var description: String {
-        return String(format: "%f Split event @ %f,%f,%f from %@ to %f,%f,%f->%f,%f,%f", self.distance, self.intersectionPoint.x, self.intersectionPoint.y, self.intersectionPoint.z, self.vertex.description, self.oppositeEdge.point1.x, self.oppositeEdge.point1.y, self.oppositeEdge.point1.z, self.oppositeEdge.point2.x, self.oppositeEdge.point2.y, self.oppositeEdge.point2.z)
+        return String(format: "%f Split event @ %f,%f,%f from %@ to %f,%f,%f->%f,%f,%f", self.distance, self.intersectionPoint.x, self.intersectionPoint.y, self.intersectionPoint.z, self.vertex.description, self.oppositeEdge.start.x, self.oppositeEdge.start.y, self.oppositeEdge.start.z, self.oppositeEdge.end.x, self.oppositeEdge.end.y, self.oppositeEdge.end.z)
     }
     
     override public var relatedEdges: [LineSegment] {

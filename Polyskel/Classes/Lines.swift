@@ -53,39 +53,14 @@ extension LinearGeometry {
     }
 }
 
-public struct LineSegment : Hashable, LinearGeometry {
-    public init(_ point1: Vector, _ point2: Vector) {
-        self.point1 = point1
-        self.point2 = point2
-    }
-    
-    public var point1: Vector {
-        didSet { point1 = point1.quantized() }
-    }
-    
-    public var point: Vector {
-        return point1
-    }
-    
-    public var point2: Vector {
-        didSet { point2 = point2.quantized() }
-    }
-    
-    public var direction : Vector {
-        let diff = point2 - point1
-        return diff.normalized()
-    }
+extension LineSegment : LinearGeometry {
     
     public var line : Line {
-        return Line(point: point1, direction: direction)
-    }
-    
-    public func intersects(with: LineSegment) -> Bool {
-        return intersection(with: with) != nil
+        return Line(point: start, direction: direction)
     }
     
     public var midPoint : Vector {
-        return (self.point1 + self.point2) * 0.5
+        return (self.start + self.end) * 0.5
     }
 }
 
@@ -103,19 +78,19 @@ extension LineSegment {
     }
     
     func swappedToXZ() -> LinearGeometry {
-        let p0 = Vector(self.point1.x, self.point1.z, self.point1.y)
-        let p1 = Vector(self.point2.x, self.point2.z, self.point1.y)
-        return LineSegment(p0, p1)
+        let p0 = Vector(self.start.x, self.start.z, self.start.y)
+        let p1 = Vector(self.end.x, self.end.z, self.end.y)
+        return LineSegment(p0, p1)!
     }
     
     func swappedToYZ() -> LinearGeometry {
-        let p0 = Vector(self.point1.y, self.point1.z, self.point1.x)
-        let p1 = Vector(self.point2.y, self.point2.z, self.point1.x)
-        return LineSegment(p0, p1)
+        let p0 = Vector(self.start.y, self.start.z, self.start.x)
+        let p1 = Vector(self.end.y, self.end.z, self.end.x)
+        return LineSegment(p0, p1)!
     }
     
     func containsColinearPoint(_ point : Vector) -> Bool {
-        let ua = pointParameter(point, self.point1, self.point2)
+        let ua = pointParameter(point, self.start, self.end)
         return ua >= 0.0 && ua <= 1.0
     }
     
@@ -234,7 +209,7 @@ public struct Line : Hashable, LinearGeometry {
     }
     
     public init(from: LineSegment) {
-        self.point = from.point1
+        self.point = from.start
         self.direction = from.direction
     }
     
@@ -365,13 +340,17 @@ public extension Polygon {
             }
             if (lastPosition != nil) {
                 let edge = LineSegment(lastPosition!, thisPosition)
-                lineSegments.append(edge)
+                if (edge != nil) {
+                    lineSegments.append(edge!)
+                }
             }
             lastPosition = thisPosition
         }
         if ((firstPosition != nil) && (lastPosition != nil) && (firstPosition != lastPosition)) {
             let edge = LineSegment(lastPosition!, firstPosition!)
-            lineSegments.append(edge)
+            if (edge != nil) {
+                lineSegments.append(edge!)
+            }
         }
         
         return lineSegments

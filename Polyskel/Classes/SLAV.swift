@@ -49,7 +49,7 @@ class SLAV : Sequence {
         self.lavs = contours.map { LAV.fromPolygon(polygon: $0, slav: self) }
 
         // store original polygon edges for calculating split events
-        self.originalEdges = Array(self.lavs.joined()).map { OriginalEdge(edge: LineSegment($0.prev!.point, $0.point), bisectorLeft: $0.prev!.bisector, bisectorRight: $0.bisector) }
+        self.originalEdges = Array(self.lavs.joined()).map { OriginalEdge(edge: LineSegment($0.prev!.point, $0.point)!, bisectorLeft: $0.prev!.bisector, bisectorRight: $0.bisector) }
     }
     
     func makeIterator() -> IndexingIterator<[LAV]> {
@@ -115,7 +115,7 @@ class SLAV : Sequence {
     
     func handleSplitEvent(_ event : SplitEvent, isGabled: (LineSegment) -> Bool) -> (Subtree?, [SkeletonEvent]) {
         let lav = event.vertex.lav
-        NSLog("%.2f Split event at intersection %f,%f,%f from vertex %@, for edge %f,%f,%f->%f,%f,%f in %@", event.distance, event.intersectionPoint.x, event.intersectionPoint.y, event.intersectionPoint.z, event.vertex.description, event.oppositeEdge.point1.x, event.oppositeEdge.point1.y, event.oppositeEdge.point1.z, event.oppositeEdge.point2.x, event.oppositeEdge.point2.y, event.oppositeEdge.point2.z, lav!.description)
+        NSLog("%.2f Split event at intersection %f,%f,%f from vertex %@, for edge %f,%f,%f->%f,%f,%f in %@", event.distance, event.intersectionPoint.x, event.intersectionPoint.y, event.intersectionPoint.z, event.vertex.description, event.oppositeEdge.start.x, event.oppositeEdge.start.y, event.oppositeEdge.start.z, event.oppositeEdge.end.x, event.oppositeEdge.end.y, event.oppositeEdge.end.z, lav!.description)
 
         var sinks = [event.vertex.point]
         var edges : Set<LineSegment> = Set([event.vertex.edgeLeft, event.vertex.edgeRight])
@@ -125,10 +125,10 @@ class SLAV : Sequence {
         let norm = event.oppositeEdge.direction
         for v in Array(self.lavs.joined()) {
             NSLog("%@ in %@", v.description, v.lav!.description)
-            if ((norm == v.edgeLeft.direction) && (event.oppositeEdge.point1 == v.edgeLeft.point1)) {
+            if ((norm == v.edgeLeft.direction) && (event.oppositeEdge.start == v.edgeLeft.start)) {
                 x = v
                 y = x!.prev
-            } else if ((norm == v.edgeRight.direction) && (event.oppositeEdge.point1 == v.edgeRight.point1)) {
+            } else if ((norm == v.edgeRight.direction) && (event.oppositeEdge.start == v.edgeRight.start)) {
                 y = v
                 x = y!.next
             }
