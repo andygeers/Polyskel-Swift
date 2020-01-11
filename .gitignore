@@ -69,3 +69,5 @@ fastlane/test_output
 
 *.xcuserdatad
 .ruby-version
+
+.develop
