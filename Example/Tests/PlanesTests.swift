@@ -25,11 +25,11 @@ class PlanesTests: XCTestCase {
         let intersection = plane1!.intersectionWith(plane2!)
         XCTAssertNotNil(intersection)
         if (intersection != nil) {
-            XCTAssert(plane1!.containsPoint(intersection!.point))
-            XCTAssert(plane2!.containsPoint(intersection!.point))
+            XCTAssert(plane1!.containsPoint(intersection!.origin))
+            XCTAssert(plane2!.containsPoint(intersection!.origin))
             
-            XCTAssert(plane1!.containsPoint(intersection!.point + intersection!.direction))
-            XCTAssert(plane2!.containsPoint(intersection!.point + intersection!.direction))
+            XCTAssert(plane1!.containsPoint(intersection!.origin + intersection!.direction))
+            XCTAssert(plane2!.containsPoint(intersection!.origin + intersection!.direction))
         }
     }
     
@@ -40,14 +40,14 @@ class PlanesTests: XCTestCase {
         let intersection = plane1!.intersectionWith(plane2!)
         XCTAssertNotNil(intersection)
         if (intersection != nil) {
-            XCTAssertEqual(plane1!.normal.dot(intersection!.point), plane1!.w);
-            XCTAssertEqual(plane2!.normal.dot(intersection!.point), plane2!.w);
+            XCTAssertEqual(plane1!.normal.dot(intersection!.origin), plane1!.w);
+            XCTAssertEqual(plane2!.normal.dot(intersection!.origin), plane2!.w);
             
-            XCTAssert(plane1!.containsPoint(intersection!.point))
-            XCTAssert(plane2!.containsPoint(intersection!.point))
+            XCTAssert(plane1!.containsPoint(intersection!.origin))
+            XCTAssert(plane2!.containsPoint(intersection!.origin))
             
-            XCTAssert(plane1!.containsPoint(intersection!.point + intersection!.direction))
-            XCTAssert(plane2!.containsPoint(intersection!.point + intersection!.direction))
+            XCTAssert(plane1!.containsPoint(intersection!.origin + intersection!.direction))
+            XCTAssert(plane2!.containsPoint(intersection!.origin + intersection!.direction))
         }
     }
 }

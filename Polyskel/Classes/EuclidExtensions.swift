@@ -44,7 +44,7 @@ public extension Plane {
         
         guard let point = self.solveSimultaneousEquationsWith(p) else { return nil; }
         
-        return Line(point: point, direction: direction)
+        return Line(origin: point, direction: direction)
     }
     
 }
@@ -134,6 +134,6 @@ extension LineSegment {
 
 extension Ray {
     var description : String {
-        return String(format: "Ray(%@ + u<%@>)", point.description, direction.description)
+        return String(format: "Ray(%@ + u<%@>)", origin.description, direction.description)
     }
 }

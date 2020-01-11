@@ -127,8 +127,8 @@ class LAVertex {
 
                     // check eligibility of b
                     // a valid b should lie within the area limited by the edge and the bisectors of its two vertices:
-                    let xleft = !self.lav!.slav.VectorLTEZero(edge.bisectorLeft.direction.cross((b! - edge.bisectorLeft.point).normalized()))
-                    let xright = !self.lav!.slav.VectorGTEZero(edge.bisectorRight.direction.cross((b! - edge.bisectorRight.point).normalized()))
+                    let xleft = !self.lav!.slav.VectorLTEZero(edge.bisectorLeft.direction.cross((b! - edge.bisectorLeft.origin).normalized()))
+                    let xright = !self.lav!.slav.VectorGTEZero(edge.bisectorRight.direction.cross((b! - edge.bisectorRight.origin).normalized()))
                     let xedge = !self.lav!.slav.VectorGTEZero(edge.edge.direction.cross((b! - edge.edge.start).normalized()))
 
                     if (!(xleft && xright && xedge)) {

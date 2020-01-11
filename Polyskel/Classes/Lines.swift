@@ -56,7 +56,7 @@ extension LinearGeometry {
 extension LineSegment : LinearGeometry {
     
     public var line : Line {
-        return Line(point: start, direction: direction)
+        return Line(origin: start, direction: direction)!
     }
     
     public var midPoint : Vector {
@@ -101,12 +101,12 @@ extension LineSegment {
     
     internal static func getAxisSwapForIntersection(_ first: LinearGeometry, with: LinearGeometry) -> AxisSwap {
         
-        if ((first.direction.z == 0) && (with.direction.z == 0) && (first.line.point.z == with.line.point.z)) {
+        if ((first.direction.z == 0) && (with.direction.z == 0) && (first.line.origin.z == with.line.origin.z)) {
             return .none
-        } else if ((first.direction.y == 0) && (with.direction.y == 0) && (first.line.point.y == with.line.point.y)) {
+        } else if ((first.direction.y == 0) && (with.direction.y == 0) && (first.line.origin.y == with.line.origin.y)) {
             // Switch dimensions and then solve
             return .xz
-        } else if ((first.direction.x == 0) && (with.direction.x == 0) && (first.line.point.x == with.line.point.x)) {
+        } else if ((first.direction.x == 0) && (with.direction.x == 0) && (first.line.origin.x == with.line.origin.x)) {
             // Switch dimensions and then solve
             return .yz
         } else {
@@ -117,13 +117,13 @@ extension LineSegment {
 }
 
 public struct Ray : Hashable, LinearGeometry {
-    public init(_ point: Vector, _ direction: Vector) {
-        self.point = point
+    public init(_ origin: Vector, _ direction: Vector) {
+        self.origin = origin
         self.direction = direction
     }
     
-    public var point: Vector {
-        didSet { point = point.quantized() }
+    public var origin: Vector {
+        didSet { origin = origin.quantized() }
     }
     
     public var direction: Vector {
@@ -131,7 +131,7 @@ public struct Ray : Hashable, LinearGeometry {
     }
     
     public var line : Line {
-        return Line(point: point, direction: direction)
+        return Line(origin: origin, direction: direction)!
     }
 }
 
@@ -149,19 +149,19 @@ extension Ray {
     }
     
     func swappedToXZ() -> LinearGeometry {
-        let p0 = Vector(self.point.x, self.point.z, self.point.y)
+        let p0 = Vector(self.origin.x, self.origin.z, self.origin.y)
         let p1 = Vector(self.direction.x, self.direction.z, self.direction.y)
         return Ray(p0, p1)
     }
     
     func swappedToYZ() -> LinearGeometry {
-        let p0 = Vector(self.point.y, self.point.z, self.point.x)
+        let p0 = Vector(self.origin.y, self.origin.z, self.origin.x)
         let p1 = Vector(self.direction.y, self.direction.z, self.direction.x)
         return Ray(p0, p1)
     }
     
     public func containsColinearPoint(_ point : Vector) -> Bool {
-        let ua = pointParameter(point, self.point, self.point + self.direction)
+        let ua = pointParameter(point, self.origin, self.origin + self.direction)
         return ua >= 0.0
     }
 }
@@ -202,27 +202,13 @@ private func intersectionBetween(_ geometry1 : LinearGeometry, with: LinearGeome
     }
 }
 
-public struct Line : Hashable, LinearGeometry {
-    public init(point: Vector, direction: Vector) {
-        self.point = point
-        self.direction = direction
-    }
-    
+extension Line : LinearGeometry {
     public init(from: LineSegment) {
-        self.point = from.start
-        self.direction = from.direction
-    }
-    
-    public var point: Vector {
-        didSet { point = point.quantized() }
-    }
-
-    public var direction: Vector {
-        didSet { direction = direction.normalized() }
+        self.init(origin: from.start, direction: from.direction)!
     }
     
     public var description : String {
-        return String(format: "{<%@> u<%@>}", point.description, direction.description)
+        return String(format: "{<%@> u<%@>}", origin.description, direction.description)
     }
     
     public var line : Line {
@@ -231,7 +217,7 @@ public struct Line : Hashable, LinearGeometry {
     
     public func distance(to: Vector) -> Double {
         // See "Vector formulation" at https://en.wikipedia.org/wiki/Distance_from_a_point_to_a_line
-        let aMinusP = self.point - to
+        let aMinusP = self.origin - to
         let v = aMinusP - (self.direction * aMinusP.dot(self.direction))
         return v.length
     }
@@ -251,20 +237,20 @@ extension Line {
         return self.linearGeomIntersection(with: with)
     }
     
-    public func intersection(with: Line) -> Vector? {
-        return self.linearGeomIntersection(with: with)
-    }
+//    public func intersection(with: Line) -> Vector? {
+//        return self.linearGeomIntersection(with: with)
+//    }
     
     func swappedToXZ() -> LinearGeometry {
-        let p0 = Vector(self.point.x, self.point.z, self.point.y)
+        let p0 = Vector(self.origin.x, self.origin.z, self.origin.y)
         let p1 = Vector(self.direction.x, self.direction.z, self.direction.y)
-        return Line(point: p0, direction: p1)
+        return Line(origin: p0, direction: p1)!
     }
     
     func swappedToYZ() -> LinearGeometry {
-        let p0 = Vector(self.point.y, self.point.z, self.point.x)
+        let p0 = Vector(self.origin.y, self.origin.z, self.origin.x)
         let p1 = Vector(self.direction.y, self.direction.z, self.direction.x)
-        return Line(point: p0, direction: p1)
+        return Line(origin: p0, direction: p1)!
     }
     
     func containsColinearPoint(_ point : Vector) -> Bool {
@@ -279,9 +265,9 @@ extension Line {
 // TODO: improve this using https://en.wikipedia.org/wiki/Line–line_intersection
 private func lineIntersection(_ line1: Line, _ line2: Line) -> Vector? {
     
-    let p0 = line1.point
+    let p0 = line1.origin
     let p1 = p0 + line1.direction
-    let p2 = line2.point
+    let p2 = line2.origin
     let p3 = p2 + line2.direction
     
     let x1 = p0.x, y1 = p0.y
