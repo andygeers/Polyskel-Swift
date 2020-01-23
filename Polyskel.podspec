@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name             = 'Polyskel'
-  s.version          = '0.0.4'
+  s.version          = '0.1.0'
   s.summary          = 'A Swift implementation of the Polyskel Python library to find Straight Skeletons of polygons'
 
 # This description is used to generate tags and improve search results.
@@ -39,5 +39,5 @@ Polyskel is a Python library for finding the Straight Skeleton of a polygon, as 
 
   # s.public_header_files = 'Pod/Classes/**/*.h'
   # s.frameworks = 'UIKit', 'MapKit'
-  s.dependency 'Euclid', "~> 0.2.2"
+  s.dependency 'Euclid', "~> 0.3.0"
 end
