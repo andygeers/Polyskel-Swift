@@ -119,7 +119,7 @@ extension LineSegment {
 public struct Ray : Hashable, LinearGeometry {
     public init(_ origin: Vector, _ direction: Vector) {
         self.origin = origin
-        self.direction = direction
+        self.direction = direction.normalized()
     }
     
     public var origin: Vector {
