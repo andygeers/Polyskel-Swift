@@ -20,10 +20,20 @@ public extension StraightSkeleton {
             // Find all nodes in the skeleton that are related to this edge
             let sorted = nodesFor(edge: edge, angle: angle)
             
-            let path = Path(sorted.map { PathPoint($0, isCurved: false )}).closed()
-            let poly = Polygon(shape: path, material: randomColour())
-            if (poly != nil) {
-                polygons.append(poly!)
+            let colour = randomColour()
+            
+            var lastNode : Vector? = nil
+            for node in sorted + [edge.start] {
+                if (lastNode != nil) {
+                    let points = [edge.end, lastNode!, node]
+                    let path = Path(points.map { PathPoint($0, isCurved: false )}).closed()
+                    let poly = Polygon(shape: path, material: colour)
+                    if (poly != nil) {
+                        polygons.append(poly!)
+                    }
+                }
+                
+                lastNode = node
             }
         }
 
@@ -39,7 +49,7 @@ extension StraightSkeleton {
         let points = nodes.map { $0.source + polyPlane.normal * ($0.height * scaleFactor) }
         
         // We need to sort the nodes along the axis parallel to the edge
-        return [edge.end] + points.sorted(by: { distanceAlong($0, edge) > distanceAlong($1, edge) }) + [edge.start]
+        return points.sorted(by: { distanceAlong($0, edge) > distanceAlong($1, edge) })
     }
     
     func scaleFactorFor(angle: Double) -> Double {

@@ -110,16 +110,19 @@ class ViewController: UIViewController {
 
     func square() -> Polygon? {
         let points = [
-            Vector(0,   0, 0),
-            Vector(0,   0, 2),
-            Vector(2,   0, 2),
-            Vector(2,   0, 0),
-            Vector(1.2, 0, 0),
-            Vector(1.2, 0, 1),
-            Vector(0.8, 0, 1),
-            Vector(0.8, 0, 0),
-            Vector(0,   0, 0)
-        ]        
+            Vector(-0.01,0.00,0.04),
+            Vector(-0.70,0.00,0.04),
+            Vector(-0.70,0.00,-0.31),
+            Vector(0.53,0.00,-0.31),
+            Vector(0.53,0.00,-0.92),
+            Vector(-0.98,0.00,-0.92), // corner starts
+            Vector(-0.98,0.00,-0.70), // corner middle
+            Vector(-1.52,0.00,-0.70), // corner ends
+            Vector(-1.52,0.00,0.84),
+            Vector(-1.05,0.00,0.84),
+            Vector(-0.01,0.00,0.84),
+            Vector(-0.01,0.00,0.04)
+        ]
         
         let outline = Path(points.map { PathPoint($0, isCurved: false) }).closed()
         
