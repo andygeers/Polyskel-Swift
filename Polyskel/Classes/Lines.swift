@@ -62,6 +62,10 @@ extension LineSegment : LinearGeometry {
     public var midPoint : Vector {
         return (self.start + self.end) * 0.5
     }
+    
+    public var length : Double {
+        return (self.end - self.start).length
+    }
 }
 
 extension LineSegment {

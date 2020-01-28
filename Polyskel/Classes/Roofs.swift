@@ -15,6 +15,8 @@ public extension StraightSkeleton {
     func generateRoofPolygons(angle: Double) -> [Polygon] {
         var polygons : [Polygon] = []
         
+        var textureOffset = 0.0
+        
         // Iterate over each edge in the original polygon
         for edge in self.polygon.edges {
             // Find all nodes in the skeleton that are related to this edge
@@ -26,8 +28,8 @@ public extension StraightSkeleton {
             for node in sorted + [edge.start] {
                 if (lastNode != nil) {
                     let points = [edge.end, lastNode!, node]
-                    let path = Path(points.map { PathPoint($0, isCurved: false )}).closed()
-                    let poly = Polygon(shape: path, material: colour)
+                    let vertices = points.map { Vertex($0, self.polygon.plane.normal, textureCoordinate(point: $0, edge: edge)) }
+                    let poly = Polygon(vertices, material: colour)
                     if (poly != nil) {
                         if let combined = polygons.last?.merge(poly!) {
                             polygons[polygons.count - 1] = combined
@@ -39,6 +41,8 @@ public extension StraightSkeleton {
                 
                 lastNode = node
             }
+            
+            textureOffset += edge.length
         }
 
         return polygons
@@ -46,6 +50,17 @@ public extension StraightSkeleton {
     
 }
 extension StraightSkeleton {
+    func textureCoordinate(point: Vector, edge: LineSegment) -> Vector {
+        // Use the edge as the "X" axis
+        let direction = edge.direction
+        let axis = Vector(abs(direction.x), abs(direction.y), abs(direction.z))
+        let x = point.dot(axis)
+        // Use the distance from the edge as the "Y" axis
+        let y = edge.line.distance(to: point)
+        
+        return Vector(x, y, 0.0)
+    }
+    
     func nodesFor(edge : LineSegment, angle: Double) -> [Vector] {
         let polyPlane = self.polygon.plane
         let nodes = self.subtrees.filter { $0.edges.contains(edge) }
