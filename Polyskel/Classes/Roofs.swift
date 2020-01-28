@@ -29,7 +29,11 @@ public extension StraightSkeleton {
                     let path = Path(points.map { PathPoint($0, isCurved: false )}).closed()
                     let poly = Polygon(shape: path, material: colour)
                     if (poly != nil) {
-                        polygons.append(poly!)
+                        if let combined = polygons.last?.merge(poly!) {
+                            polygons[polygons.count - 1] = combined
+                        } else {
+                            polygons.append(poly!)
+                        }
                     }
                 }
                 
