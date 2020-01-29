@@ -45,6 +45,9 @@ public class Subtree {
 }
 
 public class Polyskel {
+    
+    public static var debugLog : Bool = false
+    
     /**
         Compute the straight skeleton of a polygon.
         The polygon should be given as a list of vertices in counter-clockwise order.
@@ -70,11 +73,11 @@ public class Polyskel {
         }
 
         while !(prioque.isEmpty || slav.isEmpty) {
-            NSLog("SLAV is %@", slav.map { $0 })
+            if (Polyskel.debugLog) { NSLog("SLAV is %@", slav.map { $0 }) }
             let i = prioque.dequeue()!            
             
             if (!i.isValid()) {
-                NSLog("%.2f Discarded outdated edge event %@", i.distance, i.description)
+                if (Polyskel.debugLog) { NSLog("%.2f Discarded outdated edge event %@", i.distance, i.description) }
                 continue
             }
             

@@ -84,7 +84,7 @@ class SLAV : Sequence {
 
         let lav = event.vertexA.lav
         if (event.vertexA.prev === event.vertexB.next) {
-            NSLog("%.2f Peak event at intersection %f,%f,%f from <%@,%@,%@> in %@", event.distance, event.intersectionPoint.x, event.intersectionPoint.y, event.intersectionPoint.z, event.vertexA.description, event.vertexB.description, event.vertexA.prev!.description, lav!.description)
+            if (Polyskel.debugLog) { NSLog("%.2f Peak event at intersection %f,%f,%f from <%@,%@,%@> in %@", event.distance, event.intersectionPoint.x, event.intersectionPoint.y, event.intersectionPoint.z, event.vertexA.description, event.vertexB.description, event.vertexA.prev!.description, lav!.description) }
             self.lavs = self.lavs.filter { $0 !== lav }
             
             for vertex in lav! {
@@ -94,7 +94,7 @@ class SLAV : Sequence {
                 vertex.invalidate()
             }
         } else {
-            NSLog("%.2f Edge event at intersection %f,%f,%f from <%@,%@> in %@", event.distance, event.intersectionPoint.x, event.intersectionPoint.y, event.intersectionPoint.z, event.vertexA.description, event.vertexB.description, lav!.description)
+            if (Polyskel.debugLog) { NSLog("%.2f Edge event at intersection %f,%f,%f from <%@,%@> in %@", event.distance, event.intersectionPoint.x, event.intersectionPoint.y, event.intersectionPoint.z, event.vertexA.description, event.vertexB.description, lav!.description) }
             let newVertex = lav!.unify(vertexA: event.vertexA, vertexB: event.vertexB, point: event.intersectionPoint)
             if ((lav!.head === event.vertexA) || (lav!.head === event.vertexB)) {
                 lav!.head = newVertex
@@ -115,7 +115,7 @@ class SLAV : Sequence {
     
     func handleSplitEvent(_ event : SplitEvent, isGabled: (LineSegment) -> Bool) -> (Subtree?, [SkeletonEvent]) {
         let lav = event.vertex.lav
-        NSLog("%.2f Split event at intersection %f,%f,%f from vertex %@, for edge %f,%f,%f->%f,%f,%f in %@", event.distance, event.intersectionPoint.x, event.intersectionPoint.y, event.intersectionPoint.z, event.vertex.description, event.oppositeEdge.start.x, event.oppositeEdge.start.y, event.oppositeEdge.start.z, event.oppositeEdge.end.x, event.oppositeEdge.end.y, event.oppositeEdge.end.z, lav!.description)
+        if (Polyskel.debugLog) { NSLog("%.2f Split event at intersection %f,%f,%f from vertex %@, for edge %f,%f,%f->%f,%f,%f in %@", event.distance, event.intersectionPoint.x, event.intersectionPoint.y, event.intersectionPoint.z, event.vertex.description, event.oppositeEdge.start.x, event.oppositeEdge.start.y, event.oppositeEdge.start.z, event.oppositeEdge.end.x, event.oppositeEdge.end.y, event.oppositeEdge.end.z, lav!.description) }
 
         var sinks = [event.vertex.point]
         var edges : Set<LineSegment> = Set([event.vertex.edgeLeft, event.vertex.edgeRight])
@@ -124,7 +124,7 @@ class SLAV : Sequence {
         var y : LAVertex?  = nil   // left vertex
         let norm = event.oppositeEdge.direction
         for v in Array(self.lavs.joined()) {
-            NSLog("%@ in %@", v.description, v.lav!.description)
+            if (Polyskel.debugLog) { NSLog("%@ in %@", v.description, v.lav!.description) }
             if ((norm == v.edgeLeft.direction) && (event.oppositeEdge.start == v.edgeLeft.start)) {
                 x = v
                 y = x!.prev
@@ -136,7 +136,7 @@ class SLAV : Sequence {
             if (x != nil) {
                 let xleft =  self.VectorGTEZero(y!.bisector.direction.cross((event.intersectionPoint - y!.point).normalized()))
                 let xright = self.VectorLTEZero(x!.bisector.direction.cross((event.intersectionPoint - x!.point).normalized()))
-                NSLog("Vertex %@ holds edge as %@ edge (%d, %d)", v.description, (x === v ? "left" : "right"), xleft, xright)
+                if (Polyskel.debugLog) { NSLog("Vertex %@ holds edge as %@ edge (%d, %d)", v.description, (x === v ? "left" : "right"), xleft, xright) }
 
                 if (xleft && xright) {
                     break
@@ -147,7 +147,7 @@ class SLAV : Sequence {
             }
         }
         guard (x != nil) else {
-            NSLog("Failed split event %@ (equivalent edge event is expected to follow)", event.description)
+            if (Polyskel.debugLog) { NSLog("Failed split event %@ (equivalent edge event is expected to follow)", event.description) }
             return (nil,[])
         }
 
@@ -175,12 +175,12 @@ class SLAV : Sequence {
         }
 
         for l in newLavs {
-            NSLog("%@", l.description)
+            if (Polyskel.debugLog) { NSLog("%@", l.description) }
             if (l.length) > 2 {
                 self.lavs.append(l)
                 vertices.append(l.head!)
             } else {
-                NSLog("LAV %@ has collapsed into the line %f,%f,%f--%f,%f,%f", l.description, l.head!.point.x, l.head!.point.y, l.head!.point.z, l.head!.next!.point.x, l.head!.next!.point.y, l.head!.next!.point.z)
+                if (Polyskel.debugLog) { NSLog("LAV %@ has collapsed into the line %f,%f,%f--%f,%f,%f", l.description, l.head!.point.x, l.head!.point.y, l.head!.point.z, l.head!.next!.point.x, l.head!.next!.point.y, l.head!.next!.point.z) }
                 sinks.append(l.head!.next!.point)
                 edges.insert(l.head!.next!.edgeLeft)
                 edges.insert(l.head!.next!.edgeRight)

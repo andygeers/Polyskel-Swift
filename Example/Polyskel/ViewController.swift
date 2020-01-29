@@ -29,6 +29,8 @@ class ViewController: UIViewController {
     }
     
     func configure() {
+        Polyskel.debugLog = true
+        
         // create and add a camera to the scene
         let cameraNode = SCNNode()
         cameraNode.camera = SCNCamera()

@@ -74,7 +74,7 @@ class LAVertex {
         let reflexCross = directionVectorsToUse![0].cross(directionVectorsToUse![1])        
         self.isReflex = reflexCross.dot(plane.normal) > 0
         self.bisector = Ray(self.point, (creatorVectors[0] + creatorVectors[1]) * (self.isReflex ? -1 : 1))
-        NSLog("Created vertex %@", self.description)
+        if (Polyskel.debugLog) { NSLog("Created vertex %@", self.description) }
         //_debug.line((self.bisector.p.x, self.bisector.p.y, self.bisector.p.x+self.bisector.v.x*100, self.bisector.p.y+self.bisector.v.y*100), fill="blue")
     }
 
@@ -88,14 +88,14 @@ class LAVertex {
         if (self.isReflex) {
             // a reflex vertex may generate a split event
             // split events happen when a vertex hits an opposite edge, splitting the polygon in two.
-            NSLog("looking for split candidates for vertex %@", self.description)
+            if (Polyskel.debugLog) { NSLog("looking for split candidates for vertex %@", self.description) }
             for edge in self.originalEdges {
             
                 if ((edge.edge == self.edgeLeft) || (edge.edge == self.edgeRight)) {
                     continue
                 }
 
-                NSLog("\tconsidering EDGE %@", edge.description)
+                if (Polyskel.debugLog) { NSLog("\tconsidering EDGE %@", edge.description) }
 
                 // a potential b is at the intersection of between our own bisector and the bisector of the
                 // angle between the tested edge and any one of our own edges.
@@ -132,11 +132,11 @@ class LAVertex {
                     let xedge = !self.lav!.slav.VectorGTEZero(edge.edge.direction.cross((b! - edge.edge.start).normalized()))
 
                     if (!(xleft && xright && xedge)) {
-                        NSLog("\t\tDiscarded candidate %f,%f,%f (%@-%@-%@)", b!.x, b!.y, b!.z, xleft.description, xright.description, xedge.description)
+                        if (Polyskel.debugLog) { NSLog("\t\tDiscarded candidate %f,%f,%f (%@-%@-%@)", b!.x, b!.y, b!.z, xleft.description, xright.description, xedge.description) }
                         continue
                     }
 
-                    NSLog("\t\tFound valid candidate %f,%f,%f", b!.x, b!.y, b!.z)
+                    if (Polyskel.debugLog) { NSLog("\t\tFound valid candidate %f,%f,%f", b!.x, b!.y, b!.z) }
                     events.append( SplitEvent(distance: Line(from: edge.edge).distance(to: b!), intersectionPoint: b!, vertex: self, oppositeEdge: edge.edge) )
                 }
             }
@@ -170,7 +170,7 @@ class LAVertex {
         let sortedEvents = events.sorted(by: { ($0.intersectionPoint - self.point).length < ($1.intersectionPoint - self.point).length })
         let ev = sortedEvents.first
 
-        NSLog("Generated new event for %@: %@", self.description, ev!.description)
+        if (Polyskel.debugLog) { NSLog("Generated new event for %@: %@", self.description, ev!.description) }
         return ev
     }
     

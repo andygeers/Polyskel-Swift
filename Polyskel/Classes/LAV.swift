@@ -89,7 +89,8 @@ class LAV : Sequence {
         self.head = nil
         self.slav = slav
         self.length = 0
-        NSLog("Created LAV %@", self.description)
+        
+        if (Polyskel.debugLog) { NSLog("Created LAV %@", self.description) }
     }
 
 
@@ -126,7 +127,7 @@ class LAV : Sequence {
 
     func invalidate(vertex : LAVertex) throws {
         guard vertex.lav! === self else { throw NSError() } // "Tried to invalidate a vertex that's not mine") }
-        NSLog("Invalidating %@", vertex.description)
+        if (Polyskel.debugLog) { NSLog("Invalidating %@", vertex.description) }
         vertex.isValid = false
         if ((self.head != nil) && (self.head! === vertex)) {
             self.head = self.head!.next
