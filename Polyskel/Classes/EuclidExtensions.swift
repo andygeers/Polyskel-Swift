@@ -10,21 +10,6 @@ import Euclid
 // Tolerance used for calculating approximate equality
 let epsilon = 1e-6
 
-public extension Vector {
-    
-    func angleWith(_ a: Vector) -> Double {
-        let cosineAngle = (self.dot(a) / (self.length * a.length));
-        return acos(cosineAngle)
-    }
-
-    func angleWith(plane: Plane) -> Double {
-        // We know that plane.normal.length == 1
-        let complementeryAngle = self.dot(plane.normal) / self.length;
-        return asin(complementeryAngle)
-    }
-    
-}
-
 internal extension Vector {
     // Approximate equality
     func isEqual(to other: Vector, withPrecision p: Double = epsilon) -> Bool {
@@ -120,19 +105,19 @@ internal extension Plane {
     
 }
 
-extension Vector {
+public extension Vector {
     var description : String {
         return String(format: "%.2f,%.2f,%.2f", self.x, self.y, self.z)
     }
 }
 
-extension LineSegment {
+public extension LineSegment {
     var description : String {
         return String(format: "LineSegment(<%@> to <%@>)", self.start.description, self.end.description)                
     }
 }
 
-extension Ray {
+public extension Ray {
     var description : String {
         return String(format: "Ray(%@ + u<%@>)", origin.description, direction.description)
     }

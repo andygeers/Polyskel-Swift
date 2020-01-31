@@ -9,11 +9,11 @@ import Euclid
 
 public struct StraightSkeleton {
     public var subtrees : [Subtree]
-    var polygon: Polygon
-    var holes: [Polygon]?
+    var contour: Contour
+    var holes: [Contour]?
     
-    init(polygon: Polygon, holes: [Polygon]?, subtrees: [Subtree]) {
-        self.polygon = polygon
+    init(contour: Contour, holes: [Contour]?, subtrees: [Subtree]) {
+        self.contour = contour
         self.holes = holes
         self.subtrees = subtrees
     }

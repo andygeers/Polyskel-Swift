@@ -36,17 +36,17 @@ class SLAV : Sequence {
     internal var originalEdges : [OriginalEdge]
     var plane : Plane
     
-    init(polygon: Polygon, holes: [Polygon]?) {
-        var contours = [polygon]
+    init(contour: Contour, holes: [Contour]?) {
+        var contours = [contour]
         if (holes != nil) {
             contours.append(contentsOf: holes!)
         }
         
-        self.plane = polygon.plane
+        self.plane = contour.plane
         
         self.originalEdges = []
         
-        self.lavs = contours.map { LAV.fromPolygon(polygon: $0, slav: self) }
+        self.lavs = contours.map { LAV.fromContour($0, slav: self) }
 
         // store original polygon edges for calculating split events
         self.originalEdges = Array(self.lavs.joined()).map { OriginalEdge(edge: LineSegment($0.prev!.point, $0.point)!, bisectorLeft: $0.prev!.bisector, bisectorRight: $0.bisector) }

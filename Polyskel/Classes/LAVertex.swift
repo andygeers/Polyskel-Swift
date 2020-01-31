@@ -41,46 +41,53 @@ struct OriginalEdge {
 }
 
 class LAVertex {
-    
-    var point : Vector
-    var edgeLeft : LineSegment
-    var edgeRight : LineSegment
+        
+    var lav : LAV?
+    var isValid : Bool = true // this should be handled better. Maybe membership in lav implies validity?
+    let contourNode : ContourNode
     var prev : LAVertex?
     var next : LAVertex?
-    var lav : LAV?;
-    var isValid : Bool = true; // this should be handled better. Maybe membership in lav implies validity?
-    var isReflex : Bool = false
-    var bisector : Ray
     
-    public var description: String {
-        return String(format: "Vertex (%@) (%.2f};{%.2f}), bisector %@, edges %@ %@", self.isReflex ? "reflex" : "convex", self.point.x, self.point.z, self.bisector.description, self.edgeLeft.description, self.edgeRight.description)
+    convenience init(point: Vector, edgeLeft : LineSegment, edgeRight : LineSegment, plane: Plane, directionVectors: [Vector]?) {
+        
+        let contourNode = ContourNode(point: point, edgeLeft: edgeLeft, edgeRight: edgeRight, plane: plane, directionVectors: directionVectors)
+        
+        self.init(contourNode: contourNode)
     }
     
-    init(point: Vector, edgeLeft : LineSegment, edgeRight : LineSegment, plane: Plane, directionVectors: [Vector]?) {
-        self.point = point
-        self.edgeLeft = edgeLeft
-        self.edgeRight = edgeRight
+    init(contourNode: ContourNode) {
+        self.contourNode = contourNode
         self.prev = nil
         self.next = nil
         self.lav = nil
-        
-        var directionVectorsToUse = directionVectors
-
-        let creatorVectors = [edgeLeft.direction * -1, edgeRight.direction]
-        if (directionVectors == nil) {
-            directionVectorsToUse = creatorVectors
-        }
-
-        let reflexCross = directionVectorsToUse![0].cross(directionVectorsToUse![1])        
-        self.isReflex = reflexCross.dot(plane.normal) > 0
-        self.bisector = Ray(self.point, (creatorVectors[0] + creatorVectors[1]) * (self.isReflex ? -1 : 1))
-        if (Polyskel.debugLog) { NSLog("Created vertex %@", self.description) }
-        //_debug.line((self.bisector.p.x, self.bisector.p.y, self.bisector.p.x+self.bisector.v.x*100, self.bisector.p.y+self.bisector.v.y*100), fill="blue")
     }
 
+    var description : String {
+        return contourNode.description
+    }
 
     var originalEdges : [OriginalEdge] {
         return self.lav!.slav.originalEdges
+    }
+    
+    var isReflex : Bool {
+        return contourNode.isReflex
+    }
+    
+    var edgeLeft : LineSegment {
+        return contourNode.edgeLeft
+    }
+    
+    var edgeRight : LineSegment {
+        return contourNode.edgeRight
+    }
+    
+    var point : Vector {
+        return contourNode.point
+    }
+    
+    var bisector : Ray {
+        return contourNode.bisector
     }
 
     func nextEvent(isGabled: (LineSegment) -> Bool) -> SkeletonEvent? {

@@ -18,7 +18,7 @@ public extension StraightSkeleton {
         var textureOffset = 0.0
         
         // Iterate over each edge in the original polygon
-        for edge in self.polygon.edges {
+        for edge in self.contour.edges {
             // Find all nodes in the skeleton that are related to this edge
             let sorted = nodesFor(edge: edge, angle: angle)
             
@@ -28,7 +28,7 @@ public extension StraightSkeleton {
             for node in sorted + [edge.start] {
                 if (lastNode != nil) {
                     let points = [edge.end, lastNode!, node]
-                    let vertices = points.map { Vertex($0, self.polygon.plane.normal, textureCoordinate(point: $0, edge: edge)) }
+                    let vertices = points.map { Vertex($0, self.contour.plane.normal, textureCoordinate(point: $0, edge: edge)) }
                     let poly = Polygon(vertices, material: colour)
                     if (poly != nil) {
                         if let combined = polygons.last?.merge(poly!) {
@@ -62,7 +62,7 @@ extension StraightSkeleton {
     }
     
     func nodesFor(edge : LineSegment, angle: Double) -> [Vector] {
-        let polyPlane = self.polygon.plane
+        let polyPlane = self.contour.plane
         let nodes = self.subtrees.filter { $0.edges.contains(edge) }
         let scaleFactor = scaleFactorFor(angle: angle)
         let points = nodes.map { $0.source + polyPlane.normal * ($0.height * scaleFactor) }

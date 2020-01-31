@@ -38,28 +38,6 @@ class LAV : Sequence {
         return String(format: "LAV %@", Array(self))
     }
     
-    internal static func modulo<T: BinaryInteger>(_ lhs: T, _ rhs: T) -> T {
-        let rem = lhs % rhs // -rhs <= rem <= rhs
-        return rem >= 0 ? rem : rem + rhs
-    }
-    
-    internal static func window(_ contour : [Vector]) -> [(Vector, Vector, Vector)] {
-        guard !contour.isEmpty else { return [] }
-        return (0 ..< contour.count).map { (contour[modulo($0 - 1, contour.count)], contour[$0], contour[($0 + 1) % contour.count]) }
-    }
-    
-    internal static func normalizeContour(_ polygon : Polygon) -> [(Vector, Vector, Vector)] {
-        
-        let contour = polygon.vertices.map { $0.position }
-        
-        let w = window(contour)
-        let filtered = w.filter({
-            let (prev, point, next) = $0
-            return !(point==next || ((point-prev).normalized() == (next-point).normalized()))
-        })
-        return filtered
-    }
-    
     struct LAVIterator : IteratorProtocol {
         var cur : LAVertex?
         var head : LAVertex?
@@ -94,12 +72,12 @@ class LAV : Sequence {
     }
 
 
-    static func fromPolygon(polygon : Polygon, slav : SLAV) -> LAV {
+    static func fromContour(_ contour : Contour, slav : SLAV) -> LAV {
         let lav = LAV(slav: slav)
         
-        for (prev, point, next) in normalizeContour(polygon) {
+        for node in contour {
             lav.length += 1
-            let vertex = LAVertex(point: point, edgeLeft: LineSegment(prev, point)!, edgeRight: LineSegment(point, next)!, plane: slav.plane, directionVectors: nil)
+            let vertex = LAVertex(contourNode: node)
             vertex.lav = lav
             if (lav.head == nil) {
                 lav.head = vertex

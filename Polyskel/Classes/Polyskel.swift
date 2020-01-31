@@ -49,15 +49,30 @@ public class Polyskel {
     public static var debugLog : Bool = false
     
     /**
-        Compute the straight skeleton of a polygon.
-        The polygon should be given as a list of vertices in counter-clockwise order.
-        Holes is a list of the contours of the holes, the vertices of which should be in clockwise order.
-        Returns the straight skeleton as a list of "subtrees", which are in the form of (source, height, sinks),
-        where source is the highest points, height is its height, and sinks are the point connected to the source.
-     */
+       Compute the straight skeleton of a polygon.
+       The polygon should be given as a list of vertices in counter-clockwise order.
+       Holes is a list of the contours of the holes, the vertices of which should be in clockwise order.
+       Returns the straight skeleton as a list of "subtrees", which are in the form of (source, height, sinks),
+       where source is the highest points, height is its height, and sinks are the point connected to the source.
+    */
     public static func skeletonize(polygon: Polygon, holes: [Polygon]?, isGabled: (LineSegment) -> Bool) -> StraightSkeleton {
+        let contourHoles: [Contour]?
+        if (holes != nil) {
+            contourHoles = holes!.map { Contour($0) }
+        } else {
+            contourHoles = nil
+        }
+        return skeletonize(contour: Contour(polygon), holes: contourHoles, isGabled: isGabled)
+    }
     
-        let slav = SLAV(polygon: polygon, holes: holes)
+    /**
+       Compute the straight skeleton of a polygon.
+       Returns the straight skeleton as a list of "subtrees", which are in the form of (source, height, sinks),
+       where source is the highest points, height is its height, and sinks are the point connected to the source.
+    */
+    public static func skeletonize(contour: Contour, holes: [Contour]?, isGabled: (LineSegment) -> Bool) -> StraightSkeleton {
+    
+        let slav = SLAV(contour: contour, holes: holes)
         var output : [Subtree] = [];
         var prioque = PriorityQueue<SkeletonEvent>(sort: { (e1 : SkeletonEvent, e2 : SkeletonEvent) in
             return e1.distance < e2.distance
@@ -89,7 +104,7 @@ public class Polyskel {
                 output.append(arc!)
             }
         }
-        return StraightSkeleton(polygon: polygon, holes: holes, subtrees: output)
+        return StraightSkeleton(contour: contour, holes: holes, subtrees: output)
     }
         
 }
