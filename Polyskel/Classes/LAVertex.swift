@@ -30,16 +30,6 @@
 
 import Euclid
 
-struct OriginalEdge {
-    var edge : LineSegment;
-    var bisectorLeft : Ray;
-    var bisectorRight : Ray;
-    
-    public var description : String {
-        return String(format: "Edge from %@ -> %@", edge.start.description, edge.end.description)
-    }
-}
-
 class LAVertex {
         
     var lav : LAV?
@@ -66,7 +56,7 @@ class LAVertex {
         return contourNode.description
     }
 
-    var originalEdges : [OriginalEdge] {
+    var originalEdges : [ContourEdge] {
         return self.lav!.slav.originalEdges
     }
     
@@ -98,7 +88,7 @@ class LAVertex {
             if (Polyskel.debugLog) { NSLog("looking for split candidates for vertex %@", self.description) }
             for edge in self.originalEdges {
             
-                if ((edge.edge == self.edgeLeft) || (edge.edge == self.edgeRight)) {
+                if ((edge.lineSegment == self.edgeLeft) || (edge.lineSegment == self.edgeRight)) {
                     continue
                 }
 
@@ -108,15 +98,15 @@ class LAVertex {
                 // angle between the tested edge and any one of our own edges.
 
                 // we choose the "less parallel" edge (in order to exclude a potentially parallel edge)
-                let leftdot = abs(self.edgeLeft.direction.dot(edge.edge.direction))
-                let rightdot = abs(self.edgeRight.direction.dot(edge.edge.direction))
+                let leftdot = abs(self.edgeLeft.direction.dot(edge.lineSegment.direction))
+                let rightdot = abs(self.edgeRight.direction.dot(edge.lineSegment.direction))
                 let selfedge = leftdot < rightdot ? self.edgeLeft : self.edgeRight                
 
-                let i = Line(from: selfedge).intersection(with: Line(from: edge.edge))
+                let i = Line(from: selfedge).intersection(with: Line(from: edge.lineSegment))
                 if ((i != nil) && (!(i! == self.point))) {
                     // locate candidate b
                     let linvec = (self.point - i!).normalized()
-                    var edvec = edge.edge.direction
+                    var edvec = edge.lineSegment.direction
                     if (linvec.dot(edvec)<0) {
                         edvec = -edvec
                     }
@@ -136,7 +126,7 @@ class LAVertex {
                     // a valid b should lie within the area limited by the edge and the bisectors of its two vertices:
                     let xleft = !self.lav!.slav.VectorLTEZero(edge.bisectorLeft.direction.cross((b! - edge.bisectorLeft.origin).normalized()))
                     let xright = !self.lav!.slav.VectorGTEZero(edge.bisectorRight.direction.cross((b! - edge.bisectorRight.origin).normalized()))
-                    let xedge = !self.lav!.slav.VectorGTEZero(edge.edge.direction.cross((b! - edge.edge.start).normalized()))
+                    let xedge = !self.lav!.slav.VectorGTEZero(edge.direction.cross((b! - edge.start).normalized()))
 
                     if (!(xleft && xright && xedge)) {
                         if (Polyskel.debugLog) { NSLog("\t\tDiscarded candidate %f,%f,%f (%@-%@-%@)", b!.x, b!.y, b!.z, xleft.description, xright.description, xedge.description) }
@@ -144,7 +134,7 @@ class LAVertex {
                     }
 
                     if (Polyskel.debugLog) { NSLog("\t\tFound valid candidate %f,%f,%f", b!.x, b!.y, b!.z) }
-                    events.append( SplitEvent(distance: Line(from: edge.edge).distance(to: b!), intersectionPoint: b!, vertex: self, oppositeEdge: edge.edge) )
+                    events.append( SplitEvent(distance: Line(from: edge.lineSegment).distance(to: b!), intersectionPoint: b!, vertex: self, oppositeEdge: edge.lineSegment) )
                 }
             }
         }

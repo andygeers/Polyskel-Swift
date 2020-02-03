@@ -20,7 +20,7 @@ public extension StraightSkeleton {
         // Iterate over each edge in the original polygon
         for edge in self.contour.edges {
             // Find all nodes in the skeleton that are related to this edge
-            let sorted = nodesFor(edge: edge, angle: angle)
+            let sorted = nodesFor(edge: edge.lineSegment, angle: angle)
             
             let colour = randomColour()
             
@@ -28,7 +28,7 @@ public extension StraightSkeleton {
             for node in sorted + [edge.start] {
                 if (lastNode != nil) {
                     let points = [edge.end, lastNode!, node]
-                    let vertices = points.map { Vertex($0, self.contour.plane.normal, textureCoordinate(point: $0, edge: edge)) }
+                    let vertices = points.map { Vertex($0, self.contour.plane.normal, textureCoordinate(point: $0, edge: edge.lineSegment)) }
                     let poly = Polygon(vertices, material: colour)
                     if (poly != nil) {
                         if let combined = polygons.last?.merge(poly!) {
