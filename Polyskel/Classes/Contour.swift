@@ -10,8 +10,8 @@ import Euclid
 
 public struct ContourEdge {
     var lineSegment : LineSegment
-    var bisectorLeft : Ray
-    var bisectorRight : Ray
+    public var bisectorLeft : Ray
+    public var bisectorRight : Ray
     
     public var description : String {
         return String(format: "Edge from %@ -> %@", lineSegment.start.description, lineSegment.end.description)
