@@ -8,14 +8,14 @@
 import Euclid
 
 public extension StraightSkeleton {
-    func generateRoofPolygons() -> [Polygon] {
-        return generateRoofPolygons(angle: Double.pi / 4.0)
+    
+    
+    func generateRoofPolygons(angle: Double = Double.pi / 4.0) -> [Polygon] {
+        return generateRoof(angle: angle).flatMap { $0.1 }
     }
     
-    func generateRoofPolygons(angle: Double) -> [Polygon] {
-        var polygons : [Polygon] = []
-        
-        var textureOffset = 0.0
+    func generateRoof(angle: Double = Double.pi / 4.0) -> [(ContourEdge, [Polygon])] {
+        var edgePolygons : [(ContourEdge, [Polygon])] = []
         
         // Iterate over each edge in the original polygon
         for edge in self.contour.edges {
@@ -25,6 +25,8 @@ public extension StraightSkeleton {
             let colour = randomColour()
             
             var lastNode : Vector? = nil
+            var polygons : [Polygon] = []
+            
             for node in sorted + [edge.start] {
                 if (lastNode != nil) {
                     let points = [edge.end, lastNode!, node]
@@ -42,10 +44,10 @@ public extension StraightSkeleton {
                 lastNode = node
             }
             
-            textureOffset += edge.length
+            edgePolygons.append((edge, polygons))
         }
 
-        return polygons
+        return edgePolygons
     }
     
 }

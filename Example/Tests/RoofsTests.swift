@@ -14,9 +14,11 @@ class RoofsTests: XCTestCase {
     func testGenerateRoofForSquare() {
         let p = RoofsTests.square()
         let skeleton = Polyskel.skeletonize(polygon: p!, holes: nil, isGabled: { _ in return false })
-        let roofPolys = skeleton.generateRoofPolygons()
-        XCTAssertFalse(roofPolys.isEmpty)
-        XCTAssertEqual(roofPolys.count, 4)
+        let roofEdgePolys = skeleton.generateRoof()
+        XCTAssertEqual(roofEdgePolys.count, 4)
+        for pair in roofEdgePolys {
+            XCTAssertEqual(pair.1.count, 1)
+        }
     }
     
     static func square() -> Polygon? {
