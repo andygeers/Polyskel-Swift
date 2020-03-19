@@ -101,7 +101,7 @@ public class Contour : Sequence {
         return ContourEdgeIterator(contour: self)        
     }
     
-    public init(_ polygon : Polygon) {
+    public init(_ polygon : Euclid.Polygon) {
         var vertices : [ContourNode] = []
         
         self.plane = polygon.plane
@@ -124,7 +124,7 @@ public class Contour : Sequence {
         return (0 ..< contour.count).map { (contour[modulo($0 - 1, contour.count)], contour[$0], contour[($0 + 1) % contour.count]) }
     }
     
-    internal static func normalizeContour(_ polygon : Polygon) -> [(Vector, Vector, Vector)] {
+    internal static func normalizeContour(_ polygon : Euclid.Polygon) -> [(Vector, Vector, Vector)] {
         
         let contour = polygon.vertices.map { $0.position }
         

@@ -10,12 +10,12 @@ import Euclid
 public extension StraightSkeleton {
     
     
-    func generateRoofPolygons(angle: Double = Double.pi / 4.0) -> [Polygon] {
+    func generateRoofPolygons(angle: Double = Double.pi / 4.0) -> [Euclid.Polygon] {
         return generateRoof(angle: angle).flatMap { $0.1 }
     }
     
-    func generateRoof(angle: Double = Double.pi / 4.0) -> [(ContourEdge, [Polygon])] {
-        var edgePolygons : [(ContourEdge, [Polygon])] = []
+    func generateRoof(angle: Double = Double.pi / 4.0) -> [(ContourEdge, [Euclid.Polygon])] {
+        var edgePolygons : [(ContourEdge, [Euclid.Polygon])] = []
         
         // Iterate over each edge in the original polygon
         for edge in self.contour.edges {
@@ -31,7 +31,7 @@ public extension StraightSkeleton {
                 if (lastNode != nil) {
                     let points = [edge.end, lastNode!, node]
                     let vertices = points.map { Vertex($0, self.contour.plane.normal, textureCoordinate(point: $0, edge: edge.lineSegment)) }
-                    let poly = Polygon(vertices, material: colour)
+                    let poly = Euclid.Polygon(vertices, material: colour)
                     if (poly != nil) {
                         if let combined = polygons.last?.merge(poly!) {
                             polygons[polygons.count - 1] = combined

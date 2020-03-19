@@ -317,7 +317,7 @@ private func linearGeometryIntersection(_ l1: LinearGeometry, _ l2: LinearGeomet
     }
 }
 
-public extension Polygon {
+public extension Euclid.Polygon {
     var edges : [LineSegment] {
         // Iterate over each edge in the original polygon
         var firstPosition : Vector? = nil

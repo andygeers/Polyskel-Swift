@@ -55,7 +55,7 @@ public class Polyskel {
        Returns the straight skeleton as a list of "subtrees", which are in the form of (source, height, sinks),
        where source is the highest points, height is its height, and sinks are the point connected to the source.
     */
-    public static func skeletonize(polygon: Polygon, holes: [Polygon]?, isGabled: (LineSegment) -> Bool) -> StraightSkeleton {
+    public static func skeletonize(polygon: Euclid.Polygon, holes: [Euclid.Polygon]?, isGabled: (LineSegment) -> Bool) -> StraightSkeleton {
         let contourHoles: [Contour]?
         if (holes != nil) {
             contourHoles = holes!.map { Contour($0) }

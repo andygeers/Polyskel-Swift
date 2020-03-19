@@ -102,7 +102,7 @@ class ViewController: UIViewController {
         let offset = Vector(0.01, 0.01, 0)
         let vectors = [lineSegment.start, lineSegment.end, lineSegment.end + offset, lineSegment.start + offset]
         let outline = Path(vectors.map { PathPoint($0, isCurved: false) })
-        let polygon = Polygon(shape: outline.closed(), material: UIColor.blue)
+        let polygon = Euclid.Polygon(shape: outline.closed(), material: UIColor.blue)
         if (polygon != nil) {
             return Mesh([polygon!, polygon!.inverted()])
         } else {
@@ -110,7 +110,7 @@ class ViewController: UIViewController {
         }
     }
 
-    func square() -> Polygon? {
+    func square() -> Euclid.Polygon? {
         let points = [
             Vector(-0.01,0.00,0.04),
             Vector(-0.70,0.00,0.04),
@@ -128,7 +128,7 @@ class ViewController: UIViewController {
         
         let outline = Path(points.map { PathPoint($0, isCurved: false) }).closed()
         
-        return Polygon(shape: outline, material: UIColor.red)
+        return Euclid.Polygon(shape: outline, material: UIColor.red)
     }
 }
 

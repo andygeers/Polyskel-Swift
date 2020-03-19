@@ -27,7 +27,7 @@ class SkeletonizeTests: XCTestCase {
         }
     }
     
-    static func square() -> Polygon? {
+    static func square() -> Euclid.Polygon? {
         let p1 = Vector(0, 0, 0)
         let p2 = Vector(0, 0, 1)
         let p3 = Vector(1, 0, 1)
@@ -40,6 +40,6 @@ class SkeletonizeTests: XCTestCase {
             PathPoint(p4, isCurved: false)
         ])
         
-        return Polygon(shape: outline.closed())
+        return Euclid.Polygon(shape: outline.closed())
     }
 }
