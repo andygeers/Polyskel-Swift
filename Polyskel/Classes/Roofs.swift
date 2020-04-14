@@ -25,7 +25,7 @@ public extension StraightSkeleton {
             let colour = randomColour()
             
             var lastNode : Vector? = nil
-            var polygons : [Polygon] = []
+            var polygons : [Euclid.Polygon] = []
             
             for node in sorted + [edge.start] {
                 if (lastNode != nil) {

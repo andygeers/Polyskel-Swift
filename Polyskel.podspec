@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name             = 'Polyskel'
-  s.version          = '0.2.2'
+  s.version          = '0.2.3'
   s.summary          = 'A Swift implementation of the Polyskel Python library to find Straight Skeletons of polygons'
 
 # This description is used to generate tags and improve search results.
