@@ -31,16 +31,16 @@
 import Euclid
 
 public class Subtree {
-    public var source : Vector;
-    public var height : Double;
-    public var sinks : [Vector];
-    public var edges : [LineSegment];
+    public var source : Vector
+    public var height : Double
+    public var sinks : [Vector]
+    public var edges : [LineSegment]
     
     init(source : Vector, height : Double, sinks : [Vector], edges: [LineSegment]) {
-        self.source = source;
-        self.height = height;
-        self.sinks = sinks;
-        self.edges = edges;
+        self.source = source
+        self.height = height
+        self.sinks = sinks
+        self.edges = edges
     }
 }
 
@@ -55,14 +55,14 @@ public class Polyskel {
        Returns the straight skeleton as a list of "subtrees", which are in the form of (source, height, sinks),
        where source is the highest points, height is its height, and sinks are the point connected to the source.
     */
-    public static func skeletonize(polygon: Euclid.Polygon, holes: [Euclid.Polygon]?, isGabled: (LineSegment) -> Bool) -> StraightSkeleton {
+    public static func skeletonize(polygon: Euclid.Polygon, holes: [Euclid.Polygon]?) -> StraightSkeleton {
         let contourHoles: [Contour]?
         if (holes != nil) {
             contourHoles = holes!.map { Contour($0) }
         } else {
             contourHoles = nil
         }
-        return skeletonize(contour: Contour(polygon), holes: contourHoles, isGabled: isGabled)
+        return skeletonize(contour: Contour(polygon), holes: contourHoles)
     }
     
     /**
@@ -70,7 +70,7 @@ public class Polyskel {
        Returns the straight skeleton as a list of "subtrees", which are in the form of (source, height, sinks),
        where source is the highest points, height is its height, and sinks are the point connected to the source.
     */
-    public static func skeletonize(contour: Contour, holes: [Contour]?, isGabled: (LineSegment) -> Bool) -> StraightSkeleton {
+    public static func skeletonize(contour: Contour, holes: [Contour]?) -> StraightSkeleton {
     
         let slav = SLAV(contour: contour, holes: holes)
         var output : [Subtree] = [];
@@ -80,7 +80,7 @@ public class Polyskel {
 
         for lav in slav {
             for vertex in lav {
-                let v = vertex.nextEvent(isGabled: isGabled)
+                let v = vertex.nextEvent()
                 if (v != nil) {
                     prioque.enqueue(v!)
                 }
@@ -96,7 +96,7 @@ public class Polyskel {
                 continue
             }
             
-            let (arc, events) = slav.handleEvent(i, isGabled: isGabled)
+            let (arc, events) = slav.handleEvent(i)
             
             prioque.enqueueAll(events)
 

@@ -80,7 +80,7 @@ class LAVertex {
         return contourNode.bisector
     }
 
-    func nextEvent(isGabled: (LineSegment) -> Bool) -> SkeletonEvent? {
+    func nextEvent() -> SkeletonEvent? {
         var events : [SkeletonEvent] = []
         if (self.isReflex) {
             // a reflex vertex may generate a split event
@@ -102,10 +102,9 @@ class LAVertex {
                 let rightdot = abs(self.edgeRight.direction.dot(edge.lineSegment.direction))
                 let selfedge = leftdot < rightdot ? self.edgeLeft : self.edgeRight                
 
-                let i = Line(from: selfedge).intersection(with: Line(from: edge.lineSegment))
-                if ((i != nil) && (!(i! == self.point))) {
+                if let i = Line(from: selfedge).intersection(with: Line(from: edge.lineSegment)), i != self.point {
                     // locate candidate b
-                    let linvec = (self.point - i!).normalized()
+                    let linvec = (self.point - i).normalized()
                     var edvec = edge.lineSegment.direction
                     if (linvec.dot(edvec)<0) {
                         edvec = -edvec
@@ -115,49 +114,33 @@ class LAVertex {
                     if (bisecvec.length == 0) {
                         continue
                     }
-                    guard let bisector = LineSegment(i!, bisecvec) else { continue }
-                    let b = bisector.intersection(with: self.bisector)
-
-                    if (b == nil) {
-                        continue
-                    }
+                    guard let bisector = LineSegment(i, bisecvec) else { continue }
+                    guard let b = bisector.intersection(with: self.bisector) else { continue }
 
                     // check eligibility of b
                     // a valid b should lie within the area limited by the edge and the bisectors of its two vertices:
-                    let xleft = !self.lav!.slav.VectorLTEZero(edge.bisectorLeft.direction.cross((b! - edge.bisectorLeft.origin).normalized()))
-                    let xright = !self.lav!.slav.VectorGTEZero(edge.bisectorRight.direction.cross((b! - edge.bisectorRight.origin).normalized()))
-                    let xedge = !self.lav!.slav.VectorGTEZero(edge.direction.cross((b! - edge.start).normalized()))
+                    let xleft = !self.lav!.slav.VectorLTEZero(edge.bisectorLeft.direction.cross((b - edge.bisectorLeft.origin).normalized()))
+                    let xright = !self.lav!.slav.VectorGTEZero(edge.bisectorRight.direction.cross((b - edge.bisectorRight.origin).normalized()))
+                    let xedge = !self.lav!.slav.VectorGTEZero(edge.direction.cross((b - edge.start).normalized()))
 
                     if (!(xleft && xright && xedge)) {
-                        if (Polyskel.debugLog) { NSLog("\t\tDiscarded candidate %f,%f,%f (%@-%@-%@)", b!.x, b!.y, b!.z, xleft.description, xright.description, xedge.description) }
+                        if (Polyskel.debugLog) { NSLog("\t\tDiscarded candidate %@ (%@-%@-%@)", b.description, xleft.description, xright.description, xedge.description) }
                         continue
                     }
 
-                    if (Polyskel.debugLog) { NSLog("\t\tFound valid candidate %f,%f,%f", b!.x, b!.y, b!.z) }
-                    events.append( SplitEvent(distance: Line(from: edge.lineSegment).distance(to: b!), intersectionPoint: b!, vertex: self, oppositeEdge: edge.lineSegment) )
+                    if (Polyskel.debugLog) { NSLog("\t\tFound valid candidate %@", b.description) }
+                    events.append( SplitEvent(distance: Line(from: edge.lineSegment).distance(to: b), intersectionPoint: b, vertex: self, oppositeEdge: edge.lineSegment) )
                 }
             }
         }
-        var iPrev = self.bisector.intersection(with: self.prev!.bisector)
-        var iNext = self.bisector.intersection(with: self.next!.bisector)
-
-        if (iPrev != nil) {
-            let distance = Line(from: self.edgeLeft).distance(to: iPrev!)
-            
-            if ((self.point == self.edgeLeft.end) && (isGabled(self.edgeLeft))) {
-                iPrev = self.edgeLeft.midPoint
-            }
-            
-            events.append(EdgeEvent(distance: distance, intersectionPoint: iPrev!, vertexA: self.prev!, vertexB: self))
+        
+        if let iPrev = self.bisector.intersection(with: self.prev!.bisector) {
+            let distance = Line(from: self.edgeLeft).distance(to: iPrev)
+            events.append(EdgeEvent(distance: distance, intersectionPoint: iPrev, vertexA: self.prev!, vertexB: self))
         }
-        if (iNext != nil) {
-            let distance = Line(from: self.edgeRight).distance(to: iNext!)
-            
-            if ((self.point == self.edgeRight.start) && (isGabled(self.edgeRight))) {
-                iNext = self.edgeRight.midPoint
-            }
-            
-            events.append(EdgeEvent(distance: distance, intersectionPoint:iNext!, vertexA: self, vertexB: self.next!))
+        if let iNext = self.bisector.intersection(with: self.next!.bisector) {
+            let distance = Line(from: self.edgeRight).distance(to: iNext)
+            events.append(EdgeEvent(distance: distance, intersectionPoint:iNext, vertexA: self, vertexB: self.next!))
         }
 
         if (events.isEmpty) {
@@ -184,7 +167,7 @@ class LAVertex {
     }
 
     static func < (lhs : LAVertex, rhs : LAVertex) -> Bool {
-        return lhs.point.x < rhs.point.x
+        return lhs.point.x < rhs.point.x || (lhs.point.x == rhs.point.x && lhs.point.z < rhs.point.z)
     }
     
 }
