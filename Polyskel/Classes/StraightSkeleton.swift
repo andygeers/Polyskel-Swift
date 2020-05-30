@@ -29,10 +29,10 @@ public struct StraightSkeleton {
         let cornerBisectors = subtree.sinks.filter({ self.contour.containsPoint($0) })
         if cornerBisectors.count >= 2 {
             // Step 2: Move the vertex from its original intersection position to the midpoint of the line which is incident to both the bisectors that created the intersection point.
-            subtree.source = (cornerBisectors[0] + cornerBisectors[1]) * 0.5
+            return Subtree(source: (cornerBisectors[0] + cornerBisectors[1]) * 0.5, height: subtree.height, sinks: subtree.sinks, edges: subtree.edges)
+        } else {
+            return subtree
         }
-        
-        return subtree
     }
     
     public func gabled() -> StraightSkeleton {
