@@ -30,13 +30,18 @@ public extension StraightSkeleton {
             for node in sorted + [edge.start] {
                 if (lastNode != nil) {
                     let points = [edge.end, lastNode!, node]
-                    let vertices = points.map { Vertex($0, self.contour.plane.normal, textureCoordinate(point: $0, edge: edge.lineSegment)) }
-                    let poly = Euclid.Polygon(vertices, material: colour)
-                    if (poly != nil) {
-                        if let combined = polygons.last?.merge(poly!) {
+                    let vertexNormal : Vector
+                    if let plane = Plane(points: points) {
+                        vertexNormal = plane.normal
+                    } else {
+                        vertexNormal = self.contour.plane.normal
+                    }
+                    let vertices = points.map { Vertex($0, vertexNormal, textureCoordinate(point: $0, edge: edge.lineSegment)) }
+                    if let poly = Euclid.Polygon(vertices, material: colour) {
+                        if let combined = polygons.last?.merge(poly) {
                             polygons[polygons.count - 1] = combined
                         } else {
-                            polygons.append(poly!)
+                            polygons.append(poly)
                         }
                     }
                 }
