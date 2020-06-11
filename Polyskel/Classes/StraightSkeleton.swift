@@ -17,11 +17,13 @@ public struct StraightSkeleton {
     public var subtrees : [Subtree]
     var contour: Contour
     var holes: [Contour]?
+    let bisectorsForVertexNormals: Bool
     
-    init(contour: Contour, holes: [Contour]?, subtrees: [Subtree]) {
+    init(contour: Contour, holes: [Contour]?, subtrees: [Subtree], bisectorsForVertexNormals: Bool = true) {
         self.contour = contour
         self.holes = holes
         self.subtrees = subtrees
+        self.bisectorsForVertexNormals = bisectorsForVertexNormals
     }
     
     private func gabledSubtree(_ subtree: Subtree) -> Subtree {
@@ -38,6 +40,6 @@ public struct StraightSkeleton {
     public func gabled() -> StraightSkeleton {
         let gabledSubtrees = subtrees.map { gabledSubtree($0) }
         
-        return StraightSkeleton(contour: self.contour, holes: self.holes, subtrees: gabledSubtrees)
+        return StraightSkeleton(contour: self.contour, holes: self.holes, subtrees: gabledSubtrees, bisectorsForVertexNormals: false)
     }
 }

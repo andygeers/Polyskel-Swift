@@ -14,6 +14,27 @@ public extension StraightSkeleton {
         return generateRoof(angle: angle).flatMap { $0.1 }
     }
     
+    private func vertexNormal(_ position : Vector, planeNormal: Vector) -> Vector {
+        // See if this appears to be a gable or not
+        if (abs(planeNormal.y) < epsilon) {
+            return planeNormal
+        } else {
+            // See if this is one of the contour nodes or not
+            if let contourNode = self.contour.nodes.first(where: { $0.point == position }) {
+                if self.bisectorsForVertexNormals {
+                    // Return the bisector at this point
+                    return contourNode.bisector.direction
+                } else {
+                    // Return the plane normal but projected on the contour plane
+                    return Vector(planeNormal.x, 0.0, planeNormal.z).normalized()
+                }
+            } else {
+                // Point straight up
+                return Plane.xz.normal
+            }
+        }
+    }
+    
     func generateRoof(angle: Double = Double.pi / 4.0) -> [(ContourEdge, [Euclid.Polygon])] {
         var edgePolygons : [(ContourEdge, [Euclid.Polygon])] = []
         
@@ -30,13 +51,13 @@ public extension StraightSkeleton {
             for node in sorted + [edge.start] {
                 if (lastNode != nil) {
                     let points = [edge.end, lastNode!, node]
-                    let vertexNormal : Vector
+                    let planeNormal : Vector
                     if let plane = Plane(points: points) {
-                        vertexNormal = plane.normal
+                        planeNormal = plane.normal
                     } else {
-                        vertexNormal = self.contour.plane.normal
+                        planeNormal = self.contour.plane.normal
                     }
-                    let vertices = points.map { Vertex($0, vertexNormal, textureCoordinate(point: $0, edge: edge.lineSegment)) }
+                    let vertices = points.map { Vertex($0, vertexNormal($0, planeNormal: planeNormal), textureCoordinate(point: $0, edge: edge.lineSegment)) }
                     if let poly = Euclid.Polygon(vertices, material: colour) {
                         if let combined = polygons.last?.merge(poly) {
                             polygons[polygons.count - 1] = combined
