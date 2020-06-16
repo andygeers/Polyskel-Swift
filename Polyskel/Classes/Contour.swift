@@ -68,7 +68,7 @@ public struct ContourNode {
 public class Contour : Sequence {
     
     let nodes : [ContourNode]
-    let plane : Plane
+    public let plane : Plane
     
     public struct ContourEdgeIterator : Sequence, IteratorProtocol {
         var curIndex : Int
