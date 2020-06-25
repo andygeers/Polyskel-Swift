@@ -131,7 +131,7 @@ public class Contour : Sequence {
         let w = window(contour)
         let filtered = w.filter({
             let (prev, point, next) = $0
-            return !(point==next || ((point-prev).normalized() == (next-point).normalized()))
+            return !(point==next || ((point - prev).normalized().isEqual(to: (next - point).normalized())))
         }).map { $0.1 }
         return window(filtered)
     }

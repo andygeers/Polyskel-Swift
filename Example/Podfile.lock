@@ -1,6 +1,6 @@
 PODS:
   - Euclid (0.3.4)
-  - Polyskel (0.3.0):
+  - Polyskel (0.3.3):
     - Euclid (~> 0.3.0)
 
 DEPENDENCIES:
@@ -16,8 +16,8 @@ EXTERNAL SOURCES:
 
 SPEC CHECKSUMS:
   Euclid: 94a24caf55d4b251f4d5070c884b3258e6c0fb0a
-  Polyskel: e4e716e05f30602dde4838706c64b759726f50ce
+  Polyskel: 388a9a0055626fccd06dc9ee4580b48f0f4949ec
 
 PODFILE CHECKSUM: daf97aeebb2f9fc56a25b60226bc3a52653fbe9c
 
-COCOAPODS: 1.8.4
+COCOAPODS: 1.9.1
