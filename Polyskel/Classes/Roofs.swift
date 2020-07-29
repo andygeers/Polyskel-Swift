@@ -49,7 +49,14 @@ public extension StraightSkeleton {
             
             // Triangulate the roof polygon by alternating folds from the start and end
             let nodes = [edge.end] + sorted + [edge.start]
-
+            
+            // See if the points are all coplanar
+            if let plane = Plane(points: nodes),
+                let polygon = Polygon(nodes.map { Vertex($0, vertexNormal($0, planeNormal: plane.normal), textureCoordinate(point: $0, edge: edge.lineSegment)) }, material: colour) {
+                edgePolygons.append((edge, [polygon]))
+                continue
+            }
+            
             var i = nodes.count - 1
             var j = 0
             var k = 1
