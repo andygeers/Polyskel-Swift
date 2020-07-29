@@ -109,9 +109,21 @@ class ViewController: UIViewController {
             return nil
         }
     }
-
-    func square() -> Euclid.Polygon? {
-        let points = [
+    
+    func concavePoints() -> [Vector] {
+        return [
+            Vector(0.8900111037400001, 0.0, -0.16570023994000002),
+            Vector(0.8900111037400001, 0.0, -1.11641343136),
+            Vector(-0.6173628265500001, 0.0, -1.11641343136),
+            Vector(-1.02580896072, 0.0, -1.11641346098),
+            Vector(-1.02580896072, 0.0, -0.6046110522600001),
+            Vector(-0.6493380981600001, 0.0, -0.6046110522600001),
+            Vector(-0.6493380981600001, 0.0, -0.16570023994000002)
+        ]
+    }
+    
+    func nonNormalizedContour() -> [Vector] {
+        return [
             Vector(-0.01,0.00,0.04),
             Vector(-0.70,0.00,0.04),
             Vector(-0.70,0.00,-0.31),
@@ -125,6 +137,10 @@ class ViewController: UIViewController {
             Vector(-0.01,0.00,0.84),
             Vector(-0.01,0.00,0.04)
         ]
+    }
+
+    func square() -> Euclid.Polygon? {
+        let points = nonNormalizedContour()
         
         let outline = Path(points.map { PathPoint($0, isCurved: false) }).closed()
         

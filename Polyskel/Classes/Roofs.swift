@@ -45,29 +45,42 @@ public extension StraightSkeleton {
             
             let colour = randomColour()
             
-            var lastNode : Vector? = nil
             var polygons : [Euclid.Polygon] = []
             
-            for node in sorted + [edge.start] {
-                if (lastNode != nil) {
-                    let points = [edge.end, lastNode!, node]
-                    let planeNormal : Vector
-                    if let plane = Plane(points: points) {
-                        planeNormal = plane.normal
-                    } else {
-                        planeNormal = self.contour.plane.normal
-                    }
-                    let vertices = points.map { Vertex($0, vertexNormal($0, planeNormal: planeNormal), textureCoordinate(point: $0, edge: edge.lineSegment)) }
-                    if let poly = Euclid.Polygon(vertices, material: colour) {
-                        if let combined = polygons.last?.merge(poly) {
-                            polygons[polygons.count - 1] = combined
-                        } else {
-                            polygons.append(poly)
-                        }
-                    }
+            // Triangulate the roof polygon by alternating folds from the start and end
+            let nodes = [edge.end] + sorted + [edge.start]
+
+            var i = nodes.count - 1
+            var j = 0
+            var k = 1
+            var counter = 0
+            while (k < i) {
+                let points = [
+                    nodes[i],
+                    nodes[j],
+                    nodes[k]
+                ]
+
+                let planeNormal : Vector
+                if let plane = Plane(points: points) {
+                    planeNormal = plane.normal
+                } else {
+                    planeNormal = self.contour.plane.normal
                 }
-                
-                lastNode = node
+
+                if let tri = Polygon(points.map { Vertex($0, vertexNormal($0, planeNormal: planeNormal), textureCoordinate(point: $0, edge: edge.lineSegment)) }, material: colour) {
+                    polygons.append(tri)
+                }
+
+                if (counter % 2 == 0) {
+                    j = k
+                    k = k + 1
+                } else {
+                    j = i
+                    i = i - 1
+                }
+
+                counter += 1
             }
             
             edgePolygons.append((edge, polygons))
