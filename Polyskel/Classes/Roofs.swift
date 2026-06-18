@@ -5,6 +5,7 @@
 //  Created by Andy Geers on 29/11/2019.
 //
 
+import Foundation
 import Euclid
 
 public extension StraightSkeleton {
@@ -136,6 +137,10 @@ internal func distanceAlong(_ point : Vector, _ edge : LineSegment) -> Double {
    return (point - edge.start).dot(edge.direction)
 }
 
-internal func randomColour() -> UIColor {
-   return UIColor(red: CGFloat(Float.random(in: 0 ..< 1.0)), green: CGFloat(Float.random(in: 0 ..< 1.0)), blue: CGFloat(Float.random(in: 0 ..< 1.0)), alpha: CGFloat(1.0))
+internal struct RoofColor: Hashable {
+    let r: Float, g: Float, b: Float
+}
+
+internal func randomColour() -> RoofColor {
+    return RoofColor(r: .random(in: 0 ..< 1.0), g: .random(in: 0 ..< 1.0), b: .random(in: 0 ..< 1.0))
 }

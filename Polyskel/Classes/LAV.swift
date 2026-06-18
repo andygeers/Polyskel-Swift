@@ -28,6 +28,7 @@
 //  SOFTWARE.
 //
 
+import Foundation
 import Euclid
 class LAV : Sequence {
     var head : LAVertex?
