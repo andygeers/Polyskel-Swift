@@ -49,7 +49,7 @@ class SLAV : Sequence {
         self.lavs = contours.map { LAV.fromContour($0, slav: self) }
 
         // store original polygon edges for calculating split events
-        self.originalEdges = Array(self.lavs.joined()).map { ContourEdge(lineSegment: LineSegment($0.prev!.point, $0.point)!, bisectorLeft: $0.prev!.bisector, bisectorRight: $0.bisector) }
+        self.originalEdges = Array(self.lavs.joined()).map { ContourEdge(lineSegment: LineSegment(start: $0.prev!.point, end: $0.point)!, bisectorLeft: $0.prev!.bisector, bisectorRight: $0.bisector) }
     }
     
     func makeIterator() -> IndexingIterator<[LAV]> {

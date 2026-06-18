@@ -69,28 +69,21 @@ extension LineSegment : LinearGeometry {
 }
 
 extension LineSegment {
-    public func intersection(with: LineSegment) -> Vector? {
-        return self.linearGeomIntersection(with: with)
-    }
-    
     public func intersection(with: Ray) -> Vector? {
         return self.linearGeomIntersection(with: with)
     }
-    
-    public func intersection(with: Line) -> Vector? {
-        return self.linearGeomIntersection(with: with)
-    }
-    
+
+
     func swappedToXZ() -> LinearGeometry {
         let p0 = Vector(self.start.x, self.start.z, self.start.y)
         let p1 = Vector(self.end.x, self.end.z, self.end.y)
-        return LineSegment(p0, p1)!
+        return LineSegment(start: p0, end: p1)!
     }
     
     func swappedToYZ() -> LinearGeometry {
         let p0 = Vector(self.start.y, self.start.z, self.start.x)
         let p1 = Vector(self.end.y, self.end.z, self.end.x)
-        return LineSegment(p0, p1)!
+        return LineSegment(start: p0, end: p1)!
     }
     
     func containsColinearPoint(_ point : Vector) -> Bool {
@@ -126,9 +119,7 @@ public struct Ray : Hashable, LinearGeometry {
         self.direction = direction.normalized()
     }
     
-    public var origin: Vector {
-        didSet { origin = origin.quantized() }
-    }
+    public var origin: Vector
     
     public var direction: Vector {
         didSet { direction = direction.normalized() }
@@ -233,10 +224,6 @@ extension Line : LinearGeometry {
 }
 
 extension Line {
-    public func intersection(with: LineSegment) -> Vector? {
-        return self.linearGeomIntersection(with: with)
-    }
-    
     public func intersection(with: Ray) -> Vector? {
         return self.linearGeomIntersection(with: with)
     }
@@ -298,7 +285,7 @@ private func lineIntersection(_ line1: Line, _ line2: Line) -> Vector? {
     let ix = (x1y2minusy1x2 * x3minusx4 - x1minusx2 * x3y4minusy3x4) / d
     let iy = (x1y2minusy1x2 * y3minusy4 - y1minusy2 * x3y4minusy3x4) / d
 
-    return Vector(ix, iy, p0.z).quantized()
+    return Vector(ix, iy, p0.z)
 }
 
 private func pointParameter(_ point : Vector, _ point1 : Vector, _ point2: Vector) -> Double {
@@ -329,7 +316,7 @@ public extension Euclid.Polygon {
                 firstPosition = thisPosition
             }
             if (lastPosition != nil) {
-                let edge = LineSegment(lastPosition!, thisPosition)
+                let edge = LineSegment(start: lastPosition!, end: thisPosition)
                 if (edge != nil) {
                     lineSegments.append(edge!)
                 }
@@ -337,7 +324,7 @@ public extension Euclid.Polygon {
             lastPosition = thisPosition
         }
         if ((firstPosition != nil) && (lastPosition != nil) && (firstPosition != lastPosition)) {
-            let edge = LineSegment(lastPosition!, firstPosition!)
+            let edge = LineSegment(start: lastPosition!, end: firstPosition!)
             if (edge != nil) {
                 lineSegments.append(edge!)
             }

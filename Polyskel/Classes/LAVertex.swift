@@ -115,7 +115,7 @@ class LAVertex {
                     if (bisecvec.length == 0) {
                         continue
                     }
-                    guard let bisector = LineSegment(i, bisecvec) else { continue }
+                    guard let bisector = LineSegment(start: i, end: bisecvec) else { continue }
                     guard let b = bisector.intersection(with: self.bisector) else { continue }
 
                     // check eligibility of b

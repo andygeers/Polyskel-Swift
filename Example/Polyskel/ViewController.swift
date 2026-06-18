@@ -65,13 +65,17 @@ class ViewController: UIViewController {
         
         let geometry = SCNGeometry(mesh) {
             let material = SCNMaterial()
-            material.diffuse.contents = $0 as? UIColor
+            if let color = $0 as? UIColor {
+                material.diffuse.contents = color
+            } else if let roofColor = $0 as? RoofColor {
+                material.diffuse.contents = UIColor(red: CGFloat(roofColor.r), green: CGFloat(roofColor.g), blue: CGFloat(roofColor.b), alpha: 1.0)
+            }
             return material
         }
-        
+
         return SCNNode(geometry: geometry)
     }
-    
+
     func buildSkeletonGeometry() -> SCNNode {
         let squarePoly = square()!
         var mesh = Mesh([squarePoly])
@@ -82,7 +86,7 @@ class ViewController: UIViewController {
             NSLog(" - %d sink(s)", arc.sinks.count)
             for sink in arc.sinks {
                 NSLog("From %f,%f,%f to %f,%f,%f", arc.source.x, arc.source.y, arc.source.z, sink.x, sink.y, sink.z)
-                let lineMesh = meshFromLineSegment(LineSegment(arc.source, sink)!)
+                let lineMesh = meshFromLineSegment(LineSegment(start: arc.source, end: sink)!)
                 if (lineMesh != nil) {
                     mesh = mesh.merge(lineMesh!)
                 }
@@ -94,15 +98,15 @@ class ViewController: UIViewController {
             material.diffuse.contents = $0 as? UIColor
             return material
         }
-        
+
         return SCNNode(geometry: geometry)
     }
-    
+
     func meshFromLineSegment(_ lineSegment: LineSegment) -> Mesh? {
         let offset = Vector(0.01, 0.01, 0)
         let vectors = [lineSegment.start, lineSegment.end, lineSegment.end + offset, lineSegment.start + offset]
         let outline = Path(vectors.map { PathPoint($0, isCurved: false) })
-        let polygon = Euclid.Polygon(shape: outline.closed(), material: UIColor.blue)
+        let polygon = Euclid.Polygon(outline.closed(), material: UIColor.blue)
         if (polygon != nil) {
             return Mesh([polygon!, polygon!.inverted()])
         } else {
@@ -144,7 +148,7 @@ class ViewController: UIViewController {
         
         let outline = Path(points.map { PathPoint($0, isCurved: false) }).closed()
         
-        return Euclid.Polygon(shape: outline, material: UIColor.red)
+        return Euclid.Polygon(outline, material: UIColor.red)
     }
 }
 

@@ -3,38 +3,19 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 46;
+	objectVersion = 60;
 	objects = {
 
 /* Begin PBXBuildFile section */
-		52AED90B239157BD0017FB3A /* LinesTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52AED90A239157BD0017FB3A /* LinesTests.swift */; };
-		52AED90F239157F10017FB3A /* PlanesTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52AED90E239157F10017FB3A /* PlanesTests.swift */; };
-		52AED914239159970017FB3A /* RoofsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52AED912239159930017FB3A /* RoofsTests.swift */; };
-		52C4F08C249E5CE9001CD6E7 /* ContourTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52C4F08A249E5BF7001CD6E7 /* ContourTests.swift */; };
-		54ADB58A2DFA64EEC078700E /* Pods_Polyskel_Example.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5A10E5428F508A7BEB9DF4E2 /* Pods_Polyskel_Example.framework */; };
+		529010642FE4454200B483E6 /* Polyskel in Frameworks */ = {isa = PBXBuildFile; productRef = 529010632FE4454200B483E6 /* Polyskel */; };
 		607FACD61AFB9204008FA782 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 607FACD51AFB9204008FA782 /* AppDelegate.swift */; };
 		607FACD81AFB9204008FA782 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 607FACD71AFB9204008FA782 /* ViewController.swift */; };
 		607FACDB1AFB9204008FA782 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 607FACD91AFB9204008FA782 /* Main.storyboard */; };
 		607FACDD1AFB9204008FA782 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 607FACDC1AFB9204008FA782 /* Images.xcassets */; };
 		607FACE01AFB9204008FA782 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 607FACDE1AFB9204008FA782 /* LaunchScreen.xib */; };
-		607FACEC1AFB9204008FA782 /* SkeletonizeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 607FACEB1AFB9204008FA782 /* SkeletonizeTests.swift */; };
-		6216BA11231E4A0279A539A2 /* Pods_Polyskel_Tests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 85459B61EE9826D55A5BC1C1 /* Pods_Polyskel_Tests.framework */; };
 /* End PBXBuildFile section */
 
-/* Begin PBXContainerItemProxy section */
-		607FACE61AFB9204008FA782 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 607FACC81AFB9204008FA782 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 607FACCF1AFB9204008FA782;
-			remoteInfo = Polyskel;
-		};
-/* End PBXContainerItemProxy section */
-
 /* Begin PBXFileReference section */
-		0A7E044A8C0084621C4577FD /* LICENSE */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = LICENSE; path = ../LICENSE; sourceTree = "<group>"; };
-		13285612150E2958E07647BB /* Pods-Polyskel_Tests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Polyskel_Tests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Polyskel_Tests/Pods-Polyskel_Tests.debug.xcconfig"; sourceTree = "<group>"; };
-		220A5AB0DAB8E7961201A285 /* Pods-Polyskel_Example.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Polyskel_Example.release.xcconfig"; path = "Pods/Target Support Files/Pods-Polyskel_Example/Pods-Polyskel_Example.release.xcconfig"; sourceTree = "<group>"; };
 		52AED90A239157BD0017FB3A /* LinesTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LinesTests.swift; sourceTree = "<group>"; };
 		52AED90E239157F10017FB3A /* PlanesTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlanesTests.swift; sourceTree = "<group>"; };
 		52AED912239159930017FB3A /* RoofsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoofsTests.swift; sourceTree = "<group>"; };
@@ -47,14 +28,9 @@
 		607FACDA1AFB9204008FA782 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		607FACDC1AFB9204008FA782 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		607FACDF1AFB9204008FA782 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
-		607FACE51AFB9204008FA782 /* Polyskel_Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Polyskel_Tests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		607FACEA1AFB9204008FA782 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		607FACEB1AFB9204008FA782 /* SkeletonizeTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SkeletonizeTests.swift; sourceTree = "<group>"; };
-		658A577F13C6D907FCD364BF /* Polyskel.podspec */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = Polyskel.podspec; path = ../Polyskel.podspec; sourceTree = "<group>"; };
-		7631B52B7B7871D91DE0E7F8 /* Pods-Polyskel_Example.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Polyskel_Example.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Polyskel_Example/Pods-Polyskel_Example.debug.xcconfig"; sourceTree = "<group>"; };
 		85459B61EE9826D55A5BC1C1 /* Pods_Polyskel_Tests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Polyskel_Tests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		E09DFAA691730BB80AECC4CE /* README.md */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = net.daringfireball.markdown; name = README.md; path = ../README.md; sourceTree = "<group>"; };
-		EE4AF7CA9E90F581E576AB72 /* Pods-Polyskel_Tests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Polyskel_Tests.release.xcconfig"; path = "Pods/Target Support Files/Pods-Polyskel_Tests/Pods-Polyskel_Tests.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -62,15 +38,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				54ADB58A2DFA64EEC078700E /* Pods_Polyskel_Example.framework in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		607FACE21AFB9204008FA782 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				6216BA11231E4A0279A539A2 /* Pods_Polyskel_Tests.framework in Frameworks */,
+				529010642FE4454200B483E6 /* Polyskel in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -80,11 +48,9 @@
 		607FACC71AFB9204008FA782 = {
 			isa = PBXGroup;
 			children = (
-				607FACF51AFB993E008FA782 /* Podspec Metadata */,
 				607FACD21AFB9204008FA782 /* Example for Polyskel */,
 				607FACE81AFB9204008FA782 /* Tests */,
 				607FACD11AFB9204008FA782 /* Products */,
-				6337B2F0A14D5995E9BBA8CC /* Pods */,
 				83D9F46ACF7A63B9E2620855 /* Frameworks */,
 			);
 			sourceTree = "<group>";
@@ -93,7 +59,6 @@
 			isa = PBXGroup;
 			children = (
 				607FACD01AFB9204008FA782 /* Polyskel_Example.app */,
-				607FACE51AFB9204008FA782 /* Polyskel_Tests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -141,27 +106,6 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
-		607FACF51AFB993E008FA782 /* Podspec Metadata */ = {
-			isa = PBXGroup;
-			children = (
-				658A577F13C6D907FCD364BF /* Polyskel.podspec */,
-				E09DFAA691730BB80AECC4CE /* README.md */,
-				0A7E044A8C0084621C4577FD /* LICENSE */,
-			);
-			name = "Podspec Metadata";
-			sourceTree = "<group>";
-		};
-		6337B2F0A14D5995E9BBA8CC /* Pods */ = {
-			isa = PBXGroup;
-			children = (
-				7631B52B7B7871D91DE0E7F8 /* Pods-Polyskel_Example.debug.xcconfig */,
-				220A5AB0DAB8E7961201A285 /* Pods-Polyskel_Example.release.xcconfig */,
-				13285612150E2958E07647BB /* Pods-Polyskel_Tests.debug.xcconfig */,
-				EE4AF7CA9E90F581E576AB72 /* Pods-Polyskel_Tests.release.xcconfig */,
-			);
-			name = Pods;
-			sourceTree = "<group>";
-		};
 		83D9F46ACF7A63B9E2620855 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -178,11 +122,9 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 607FACEF1AFB9204008FA782 /* Build configuration list for PBXNativeTarget "Polyskel_Example" */;
 			buildPhases = (
-				C21D663A4729BA01619179B0 /* [CP] Check Pods Manifest.lock */,
 				607FACCC1AFB9204008FA782 /* Sources */,
 				607FACCD1AFB9204008FA782 /* Frameworks */,
 				607FACCE1AFB9204008FA782 /* Resources */,
-				287B0901EF1AC6EE190B3A1B /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -192,25 +134,6 @@
 			productName = Polyskel;
 			productReference = 607FACD01AFB9204008FA782 /* Polyskel_Example.app */;
 			productType = "com.apple.product-type.application";
-		};
-		607FACE41AFB9204008FA782 /* Polyskel_Tests */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 607FACF21AFB9204008FA782 /* Build configuration list for PBXNativeTarget "Polyskel_Tests" */;
-			buildPhases = (
-				3D8A88B381C68E19499CCCA9 /* [CP] Check Pods Manifest.lock */,
-				607FACE11AFB9204008FA782 /* Sources */,
-				607FACE21AFB9204008FA782 /* Frameworks */,
-				607FACE31AFB9204008FA782 /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				607FACE71AFB9204008FA782 /* PBXTargetDependency */,
-			);
-			name = Polyskel_Tests;
-			productName = Tests;
-			productReference = 607FACE51AFB9204008FA782 /* Polyskel_Tests.xctest */;
-			productType = "com.apple.product-type.bundle.unit-test";
 		};
 /* End PBXNativeTarget section */
 
@@ -226,11 +149,6 @@
 						CreatedOnToolsVersion = 6.3.1;
 						LastSwiftMigration = 0900;
 					};
-					607FACE41AFB9204008FA782 = {
-						CreatedOnToolsVersion = 6.3.1;
-						LastSwiftMigration = 0900;
-						TestTargetID = 607FACCF1AFB9204008FA782;
-					};
 				};
 			};
 			buildConfigurationList = 607FACCB1AFB9204008FA782 /* Build configuration list for PBXProject "Polyskel" */;
@@ -243,12 +161,14 @@
 				Base,
 			);
 			mainGroup = 607FACC71AFB9204008FA782;
+			packageReferences = (
+				529010602FE442B200B483E6 /* XCLocalSwiftPackageReference "../../Polyskel-Swift" */,
+			);
 			productRefGroup = 607FACD11AFB9204008FA782 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
 				607FACCF1AFB9204008FA782 /* Polyskel_Example */,
-				607FACE41AFB9204008FA782 /* Polyskel_Tests */,
 			);
 		};
 /* End PBXProject section */
@@ -264,73 +184,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		607FACE31AFB9204008FA782 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXResourcesBuildPhase section */
-
-/* Begin PBXShellScriptBuildPhase section */
-		287B0901EF1AC6EE190B3A1B /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-Polyskel_Example/Pods-Polyskel_Example-frameworks.sh",
-				"${BUILT_PRODUCTS_DIR}/Euclid/Euclid.framework",
-				"${BUILT_PRODUCTS_DIR}/Polyskel/Polyskel.framework",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputPaths = (
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Euclid.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Polyskel.framework",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Polyskel_Example/Pods-Polyskel_Example-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		3D8A88B381C68E19499CCCA9 /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-Polyskel_Tests-checkManifestLockResult.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
-		C21D663A4729BA01619179B0 /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-Polyskel_Example-checkManifestLockResult.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
-/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		607FACCC1AFB9204008FA782 /* Sources */ = {
@@ -342,27 +196,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		607FACE11AFB9204008FA782 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				52C4F08C249E5CE9001CD6E7 /* ContourTests.swift in Sources */,
-				52AED90B239157BD0017FB3A /* LinesTests.swift in Sources */,
-				607FACEC1AFB9204008FA782 /* SkeletonizeTests.swift in Sources */,
-				52AED914239159970017FB3A /* RoofsTests.swift in Sources */,
-				52AED90F239157F10017FB3A /* PlanesTests.swift in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXSourcesBuildPhase section */
-
-/* Begin PBXTargetDependency section */
-		607FACE71AFB9204008FA782 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 607FACCF1AFB9204008FA782 /* Polyskel_Example */;
-			targetProxy = 607FACE61AFB9204008FA782 /* PBXContainerItemProxy */;
-		};
-/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		607FACD91AFB9204008FA782 /* Main.storyboard */ = {
@@ -478,18 +312,22 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
-				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
 				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;
 		};
 		607FACF01AFB9204008FA782 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 7631B52B7B7871D91DE0E7F8 /* Pods-Polyskel_Example.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = Polyskel/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 15.6;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
 				MODULE_NAME = ExampleApp;
 				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.demo.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -500,58 +338,19 @@
 		};
 		607FACF11AFB9204008FA782 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 220A5AB0DAB8E7961201A285 /* Pods-Polyskel_Example.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = Polyskel/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 15.6;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
 				MODULE_NAME = ExampleApp;
 				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.demo.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_SWIFT3_OBJC_INFERENCE = Default;
 				SWIFT_VERSION = 4.0;
-			};
-			name = Release;
-		};
-		607FACF31AFB9204008FA782 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 13285612150E2958E07647BB /* Pods-Polyskel_Tests.debug.xcconfig */;
-			buildSettings = {
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(PLATFORM_DIR)/Developer/Library/Frameworks",
-					"$(inherited)",
-				);
-				GCC_PREPROCESSOR_DEFINITIONS = (
-					"DEBUG=1",
-					"$(inherited)",
-				);
-				INFOPLIST_FILE = Tests/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.$(PRODUCT_NAME:rfc1034identifier)";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_SWIFT3_OBJC_INFERENCE = Default;
-				SWIFT_VERSION = 4.0;
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Polyskel_Example.app/Polyskel_Example";
-			};
-			name = Debug;
-		};
-		607FACF41AFB9204008FA782 /* Release */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = EE4AF7CA9E90F581E576AB72 /* Pods-Polyskel_Tests.release.xcconfig */;
-			buildSettings = {
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(PLATFORM_DIR)/Developer/Library/Frameworks",
-					"$(inherited)",
-				);
-				INFOPLIST_FILE = Tests/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.$(PRODUCT_NAME:rfc1034identifier)";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_SWIFT3_OBJC_INFERENCE = Default;
-				SWIFT_VERSION = 4.0;
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Polyskel_Example.app/Polyskel_Example";
 			};
 			name = Release;
 		};
@@ -576,16 +375,22 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		607FACF21AFB9204008FA782 /* Build configuration list for PBXNativeTarget "Polyskel_Tests" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				607FACF31AFB9204008FA782 /* Debug */,
-				607FACF41AFB9204008FA782 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
 /* End XCConfigurationList section */
+
+/* Begin XCLocalSwiftPackageReference section */
+		529010602FE442B200B483E6 /* XCLocalSwiftPackageReference "../../Polyskel-Swift" */ = {
+			isa = XCLocalSwiftPackageReference;
+			relativePath = "../../Polyskel-Swift";
+		};
+/* End XCLocalSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		529010632FE4454200B483E6 /* Polyskel */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 529010602FE442B200B483E6 /* XCLocalSwiftPackageReference "../../Polyskel-Swift" */;
+			productName = Polyskel;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 607FACC81AFB9204008FA782 /* Project object */;
 }

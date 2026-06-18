@@ -137,10 +137,10 @@ internal func distanceAlong(_ point : Vector, _ edge : LineSegment) -> Double {
    return (point - edge.start).dot(edge.direction)
 }
 
-internal struct RoofColor: Hashable {
-    let r: Float, g: Float, b: Float
+public struct RoofColor: Hashable {
+    public let r: Float, g: Float, b: Float
 }
 
-internal func randomColour() -> RoofColor {
+public func randomColour() -> RoofColor {
     return RoofColor(r: .random(in: 0 ..< 1.0), g: .random(in: 0 ..< 1.0), b: .random(in: 0 ..< 1.0))
 }

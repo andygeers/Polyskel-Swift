@@ -41,6 +41,6 @@ class SkeletonizeTests: XCTestCase {
             PathPoint(p4, isCurved: false)
         ])
         
-        return Euclid.Polygon(shape: outline.closed())
+        return Euclid.Polygon(outline.closed())
     }
 }

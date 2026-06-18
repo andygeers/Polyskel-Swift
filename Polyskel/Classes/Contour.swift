@@ -107,7 +107,7 @@ public class Contour : Sequence {
         self.plane = polygon.plane
         
         for (prev, point, next) in Contour.normalizeContour(polygon) {
-            let vertex = ContourNode(point: point, edgeLeft: LineSegment(prev, point)!, edgeRight: LineSegment(point, next)!, plane: self.plane)
+            let vertex = ContourNode(point: point, edgeLeft: LineSegment(start: prev, end: point)!, edgeRight: LineSegment(start: point, end: next)!, plane: self.plane)
             vertices.append(vertex)
         }
                 

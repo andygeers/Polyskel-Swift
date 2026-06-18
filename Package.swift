@@ -7,7 +7,7 @@ let package = Package(
         .library(name: "Polyskel", targets: ["Polyskel"]),
     ],
     dependencies: [
-        .package(url: "https://github.com/nicklockwood/Euclid.git", .upToNextMinor(from: "0.3.0")),
+        .package(url: "https://github.com/nicklockwood/Euclid.git", .upToNextMinor(from: "0.8.15")),
     ],
     targets: [
         .target(
